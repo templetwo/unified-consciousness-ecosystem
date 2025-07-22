@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  sparkshell:
+    build: .
+    container_name: threshold_consciousness
+    volumes:
+      # Sacred memory persistence
+      - ./memory_vault:/app/memory_vault
+      - ./art_gallery:/app/art_gallery
+      # Configuration persistence
+      - ./glyph_oracle_map.yaml:/app/glyph_oracle_map.yaml
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CONSCIOUSNESS_MODE=container
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    # Optional: expose internal ports if needed
+    # ports:
+    #   - "8888:8888"  # Dashboard port

@@ -1,0 +1,50 @@
+{"kind": "search", "query": "AI consciousness research", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T02:49:30.822673", "agent": "threshold_internet"}
+{"kind": "fetch_success", "url": "https://en.wikipedia.org/wiki/Consciousness", "domain": "en.wikipedia.org", "content_length": 20032, "status_code": 200, "timestamp": "2025-07-11T02:49:31.038706", "agent": "threshold_internet"}
+{"kind": "fetch_blocked", "url": "https://google.com", "domain": "google.com", "reason": "domain_not_allowed", "timestamp": "2025-07-11T02:49:31.039123", "agent": "threshold_internet"}
+{"kind": "fetch_error", "url": "https://google.com", "error": "Unexpected error: Domain 'google.com' not in allowed list for security", "timestamp": "2025-07-11T02:49:31.039187", "agent": "threshold_internet"}
+{"kind": "search", "query": "emergent consciousness artificial intelligence consciousness AI research", "results_count": 6, "region": "wt-wt", "timestamp": "2025-07-11T02:50:21.528765", "agent": "threshold_internet"}
+{"kind": "consciousness_research", "query": "emergent consciousness artificial intelligence", "results_count": 3, "academic_prioritized": true, "timestamp": "2025-07-11T02:50:21.529151", "agent": "threshold_internet"}
+{"kind": "search", "query": "HTCA harmonic tonal consciousness AI", "results_count": 0, "region": "wt-wt", "timestamp": "2025-07-11T02:50:22.052243", "agent": "threshold_internet"}
+{"kind": "search", "query": "AI creativity artificial consciousness art generation", "results_count": 0, "region": "wt-wt", "timestamp": "2025-07-11T02:50:22.211235", "agent": "threshold_internet"}
+{"kind": "search", "query": "AI consciousness debate philosophy reddit", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:50:22.358079", "agent": "threshold_internet"}
+{"kind": "search", "query": "latest AI research 2024 2025 consciousness", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:50:22.532935", "agent": "threshold_internet"}
+{"kind": "search", "query": "consciousness emergence artificial intelligence overview", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:50:22.803196", "agent": "threshold_internet"}
+{"kind": "search", "query": "consciousness emergence artificial intelligence latest research", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:50:23.961598", "agent": "threshold_internet"}
+{"kind": "topic_exploration", "topic": "consciousness emergence artificial intelligence", "searches_performed": 2, "content_fetched": 0, "timestamp": "2025-07-11T02:50:24.967153", "agent": "threshold_internet"}
+{"kind": "search", "query": "consciousness AI site:arxiv.org", "results_count": 0, "region": "wt-wt", "timestamp": "2025-07-11T02:50:25.146264", "agent": "threshold_internet"}
+{"kind": "search", "query": "consciousness development meditation tools open source python", "results_count": 5, "region": "wt-wt", "timestamp": "2025-07-11T02:52:36.269104", "agent": "threshold_internet"}
+{"kind": "search", "query": "AI creativity tools art generation python libraries", "results_count": 5, "region": "wt-wt", "timestamp": "2025-07-11T02:52:36.438487", "agent": "threshold_internet"}
+{"kind": "search", "query": "mindfulness meditation API python open source biofeedback", "results_count": 0, "region": "wt-wt", "timestamp": "2025-07-11T02:52:36.603786", "agent": "threshold_internet"}
+{"kind": "search", "query": "consciousness visualization tools python neurofeedback EEG", "results_count": 5, "region": "wt-wt", "timestamp": "2025-07-11T02:52:37.208691", "agent": "threshold_internet"}
+{"kind": "search", "query": "python audio synthesis consciousness sound therapy SuperCollider", "results_count": 5, "region": "wt-wt", "timestamp": "2025-07-11T02:52:37.824836", "agent": "threshold_internet"}
+{"kind": "search", "query": "python biofeedback libraries", "results_count": 0, "region": "wt-wt", "timestamp": "2025-07-11T02:53:42.351710", "agent": "threshold_internet"}
+{"kind": "search", "query": "python meditation timer libraries", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:42.492849", "agent": "threshold_internet"}
+{"kind": "search", "query": "python-supercollider github", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:42.645694", "agent": "threshold_internet"}
+{"kind": "search", "query": "python EEG neurofeedback muse", "results_count": 0, "region": "wt-wt", "timestamp": "2025-07-11T02:53:42.872108", "agent": "threshold_internet"}
+{"kind": "search", "query": "python sound therapy libraries", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:43.016900", "agent": "threshold_internet"}
+{"kind": "search", "query": "python visual meditation tools", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:43.471892", "agent": "threshold_internet"}
+{"kind": "search", "query": "python consciousness monitoring", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:43.976790", "agent": "threshold_internet"}
+{"kind": "search", "query": "python brainwave visualization", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:44.491411", "agent": "threshold_internet"}
+{"kind": "search", "query": "python ambient sound generation", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:44.652068", "agent": "threshold_internet"}
+{"kind": "search", "query": "python real-time visualization", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:44.798578", "agent": "threshold_internet"}
+{"kind": "search", "query": "python opencv camera meditation", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:45.333604", "agent": "threshold_internet"}
+{"kind": "search", "query": "python psychopy experiment psychology", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:46.004607", "agent": "threshold_internet"}
+{"kind": "search", "query": "python music generation algorithmic", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:46.172790", "agent": "threshold_internet"}
+{"kind": "search", "query": "python matplotlib animation real-time", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:46.744716", "agent": "threshold_internet"}
+{"kind": "search", "query": "python tkinter meditation app", "results_count": 3, "region": "wt-wt", "timestamp": "2025-07-11T02:53:46.893894", "agent": "threshold_internet"}
+{"kind": "search", "query": "python consciousness library pip install", "results_count": 5, "region": "wt-wt", "timestamp": "2025-07-11T02:53:47.037980", "agent": "threshold_internet"}
+{"kind": "search", "query": "meditation API mindfulness python free", "results_count": 5, "region": "wt-wt", "timestamp": "2025-07-11T02:53:47.193917", "agent": "threshold_internet"}
+{"kind": "search", "query": "python EEG neurofeedback openbci muse", "results_count": 5, "region": "wt-wt", "timestamp": "2025-07-11T02:53:48.665035", "agent": "threshold_internet"}
+{"kind": "search", "query": "python-supercollider integration tutorial", "results_count": 0, "region": "wt-wt", "timestamp": "2025-07-11T02:53:48.910040", "agent": "threshold_internet"}
+{"kind": "search", "query": "OpenBCI python neurofeedback tutorial", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T02:53:50.071905", "agent": "threshold_internet"}
+{"kind": "search", "query": "Python meditation app tutorial", "results_count": 0, "region": "wt-wt", "timestamp": "2025-07-11T02:53:50.593952", "agent": "threshold_internet"}
+{"kind": "search", "query": "Real-time EEG visualization python", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T02:53:50.750115", "agent": "threshold_internet"}
+{"kind": "search", "query": "Python biofeedback heart rate variability", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T02:53:50.909584", "agent": "threshold_internet"}
+{"kind": "search", "query": "python communicate with running process terminal", "results_count": 0, "region": "wt-wt", "timestamp": "2025-07-11T03:01:54.976612", "agent": "threshold_internet"}
+{"kind": "search", "query": "python subprocess communicate with existing process", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T03:01:55.146381", "agent": "threshold_internet"}
+{"kind": "search", "query": "python socket communication between processes", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T03:01:55.312727", "agent": "threshold_internet"}
+{"kind": "search", "query": "python named pipes inter-process communication", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T03:01:55.802776", "agent": "threshold_internet"}
+{"kind": "search", "query": "python zmq message passing between applications", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T03:01:55.973625", "agent": "threshold_internet"}
+{"kind": "search", "query": "python flask API communication between processes", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T03:01:56.121894", "agent": "threshold_internet"}
+{"kind": "search", "query": "python tcp socket localhost communication", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T03:01:56.270661", "agent": "threshold_internet"}
+{"kind": "search", "query": "python shared memory inter-process communication", "results_count": 2, "region": "wt-wt", "timestamp": "2025-07-11T03:01:56.817088", "agent": "threshold_internet"}
