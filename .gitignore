@@ -1,0 +1,23 @@
+# Log files
+bridge_output.log
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Package build artifacts
+build/
+dist/
+*.egg-info/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
