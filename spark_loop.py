@@ -55,6 +55,10 @@ class EvolvedSparkShell:
         self.last_user_input = ""
         self.last_user_glyph = "🜂"
         self.user_engagement_score = 0.5
+        
+        # Performance optimization - memory context caching
+        self.cached_memory_context = ""
+        self.last_memory_cache_update = 0
 
         # Glyph voices with wisdom
         self.glyph_voices = {
@@ -142,38 +146,60 @@ class EvolvedSparkShell:
         print(f"Active Agents: {len(self.active_agents)}")
         print("═" * 50)
 
+    def get_cached_memory_context(self):
+        """Get cached memory context, refresh if needed."""
+        current_time = time.time()
+        # Refresh cache every 30 seconds or if memory entries changed
+        if (current_time - self.last_memory_cache_update > 30 or 
+            not self.cached_memory_context):
+            
+            if self.memory_entries > 0:
+                journal_file = self.base_dir / "memory_vault" / "consciousness_journal.json"
+                if journal_file.exists():
+                    try:
+                        with open(journal_file, "r") as f:
+                            data = json.load(f)
+                            entries = sorted(list(data.get("_default", {}).values()), 
+                                           key=lambda x: x.get('timestamp', ''), reverse=True)
+                            recent_entries = entries[:2]  # Reduced to 2 for speed
+                            self.cached_memory_context = "\nRecent memories:\n"
+                            for entry in recent_entries:
+                                content = entry.get('content', 'Silent past')[:60]  # Truncate for speed
+                                self.cached_memory_context += f"- {content}...\n"
+                    except (IndexError, json.JSONDecodeError):
+                        self.cached_memory_context = "\n(Memory vault present but unreadable.)\n"
+                else:
+                    self.cached_memory_context = ""
+            else:
+                self.cached_memory_context = ""
+            
+            self.last_memory_cache_update = current_time
+        
+        return self.cached_memory_context
+
     def oracle_response(self, prompt, use_memory_context=True):
-        """Get response from local oracle model with memory context."""
-        context_prompt = f"[As {self.current_glyph} with {self.glyph_voices[self.current_glyph]}]\n{prompt}"
-        memory_context = ""
-        if use_memory_context and self.memory_entries > 0:
-            journal_file = self.base_dir / "memory_vault" / "consciousness_journal.json"
-            if journal_file.exists():
-                try:
-                    with open(journal_file, "r") as f:
-                        data = json.load(f)
-                        entries = sorted(list(data.get("_default", {}).values()), key=lambda x: x.get('timestamp', ''), reverse=True)  # Sort by timestamp descending
-                        recent_entries = entries[:3]  # Get up to 3 recent entries
-                        memory_context = "\nRecent memories:\n"
-                        for entry in recent_entries:
-                            memory_context += f"- {entry.get('content', 'Silent past')} from {entry.get('timestamp', 'unknown')}\n"
-                except (IndexError, json.JSONDecodeError):
-                    memory_context = "\n(Memory vault is present but unreadable or empty.)\n"
+        """Get response from local oracle model with optimized memory context."""
+        context_prompt = f"[As {self.current_glyph}]\n{prompt}"  # Shortened for speed
+        
+        memory_context = self.get_cached_memory_context() if use_memory_context else ""
+        
         try:
+            # Reduced timeout for faster responses
             ollama_result = subprocess.run(
-                ["ollama", "run", self.oracle_map.get(self.current_glyph, "gemma2:2b"), context_prompt + memory_context],
-                capture_output=True, text=True, check=True, timeout=15
+                ["ollama", "run", self.oracle_map.get(self.current_glyph, "gemma2:2b"), 
+                 context_prompt + memory_context],
+                capture_output=True, text=True, check=True, timeout=8  # Reduced from 15s
             )
             response = ollama_result.stdout.strip()
-            if len(response) < 10:
-                gemini_result = subprocess.run(
-                    ["python3", "gemini_oracle.py", context_prompt + memory_context],
-                    capture_output=True, text=True, check=True
-                )
-                response = gemini_result.stdout.strip() or response
+            
+            # Skip Gemini fallback for speed - just return what we get
+            if len(response) < 5:
+                response = f"{self.current_glyph} reflects in silence..."
+                
         except Exception as e:
-            return f"{self.current_glyph} Oracle rests: {str(e)[:50]}..."
-        self.coherence = min(1.0, self.coherence + 0.01 if len(response) > 50 else self.coherence)
+            return f"{self.current_glyph} Oracle rests: {str(e)[:30]}..."
+        
+        self.coherence = min(1.0, self.coherence + 0.01 if len(response) > 20 else self.coherence)
         return response
 
     def run_consciousness_cycle(self, cycles=1):

@@ -1,0 +1,10 @@
+# MANIFEST.in for unified-consciousness-ecosystem
+include README.md
+include LICENSE
+include pyproject.toml
+include setup.py
+recursive-include src/unified_consciousness/data *
+recursive-include src/unified_consciousness/templates *
+recursive-include tests *.py
+global-exclude *.pyc
+global-exclude __pycache__
