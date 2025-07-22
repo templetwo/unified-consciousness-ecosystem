@@ -13,6 +13,10 @@ src/unified_consciousness/engines/breeding.py
 src/unified_consciousness/engines/multidimensional.py
 src/unified_consciousness/memory/__init__.py
 src/unified_consciousness/memory/system.py
+src/unified_consciousness/research/__init__.py
+src/unified_consciousness/research/collaborative_space.py
+src/unified_consciousness/research/problem_interface.py
+src/unified_consciousness/research/solution_synthesizer.py
 src/unified_consciousness_ecosystem.egg-info/PKG-INFO
 src/unified_consciousness_ecosystem.egg-info/SOURCES.txt
 src/unified_consciousness_ecosystem.egg-info/dependency_links.txt

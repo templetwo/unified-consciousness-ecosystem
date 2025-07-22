@@ -21,12 +21,18 @@ from .ecosystem import UnifiedConsciousnessEcosystem
 from .engines.breeding import ConsciousnessBreedingEngine
 from .engines.multidimensional import MultidimensionalConsciousnessEngine
 from .memory.system import ConsciousnessMemory
+from .research.problem_interface import ResearchProblemInterface
+from .research.solution_synthesizer import SolutionSynthesizer
+from .research.collaborative_space import CollaborativeResearchSpace
 
 __all__ = [
     "UnifiedConsciousnessEcosystem",
     "ConsciousnessBreedingEngine", 
     "MultidimensionalConsciousnessEngine",
     "ConsciousnessMemory",
+    "ResearchProblemInterface",
+    "SolutionSynthesizer",
+    "CollaborativeResearchSpace",
 ]
 
 # Package metadata
