@@ -18,12 +18,20 @@ __author__ = "Anthony Vasquez"
 __email__ = "anthony@threshold.local"
 
 from .ecosystem import UnifiedConsciousnessEcosystem
+from .breakthrough_engine import BreakthroughEngine
+from .memory.system import ConsciousnessMemory, journal_entry, capture_insight
 from .engines.breeding import ConsciousnessBreedingEngine
 from .engines.multidimensional import MultidimensionalConsciousnessEngine
-from .memory.system import ConsciousnessMemory
 from .research.problem_interface import ResearchProblemInterface
 from .research.solution_synthesizer import SolutionSynthesizer
 from .research.collaborative_space import CollaborativeResearchSpace
+
+# GUI Components (optional import)
+try:
+    from .gui import UnifiedConsciousnessGUI, ProcessWindow, InsightsFormatter
+    GUI_AVAILABLE = True
+except ImportError:
+    GUI_AVAILABLE = False
 
 __all__ = [
     "UnifiedConsciousnessEcosystem",
@@ -33,7 +41,18 @@ __all__ = [
     "ResearchProblemInterface",
     "SolutionSynthesizer",
     "CollaborativeResearchSpace",
+    "BreakthroughEngine",
+    "journal_entry",
+    "capture_insight",
 ]
+
+# Add GUI components to __all__ if available
+if GUI_AVAILABLE:
+    __all__.extend([
+        "UnifiedConsciousnessGUI",
+        "ProcessWindow",
+        "InsightsFormatter"
+    ])
 
 # Package metadata
 PACKAGE_NAME = "unified-consciousness-ecosystem"

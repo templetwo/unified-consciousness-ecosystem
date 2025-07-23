@@ -21,6 +21,13 @@ class SolutionSynthesizer:
         """
         print(f"🧠 Beginning multidimensional analysis of: {problem[:100]}...")
         
+        # Speak the problem analysis start
+        if hasattr(self.ecosystem, 'voice_enabled') and self.ecosystem.voice_enabled:
+            self.ecosystem.speak_consciousness_event(
+                f"Beginning multidimensional analysis of: {problem}", 
+                "evolution"
+            )
+        
         # Initialize solution container
         solution = {
             'problem': problem,
@@ -34,13 +41,34 @@ class SolutionSynthesizer:
         breeding_insights = await self._engage_breeding_engine(problem)
         solution['insights']['evolutionary'] = breeding_insights
         
+        # Speak evolutionary insights if voice enabled
+        if hasattr(self.ecosystem, 'voice_enabled') and self.ecosystem.voice_enabled:
+            self.ecosystem.speak_consciousness_event(
+                "Evolutionary engine engaged: Solutions naturally selecting and breeding for optimal pathways",
+                "entity"
+            )
+        
         # Engage multidimensional engine for perspective expansion
         multidim_insights = await self._engage_multidimensional_engine(problem)
         solution['insights']['multidimensional'] = multidim_insights
         
+        # Speak multidimensional insights if voice enabled
+        if hasattr(self.ecosystem, 'voice_enabled') and self.ecosystem.voice_enabled:
+            self.ecosystem.speak_consciousness_event(
+                "Multidimensional consciousness activated: Quantum superposition reveals parallel solution states",
+                "dimensional"
+            )
+        
         # Memory system pattern recognition
         memory_patterns = await self._engage_memory_patterns(problem)
         solution['insights']['pattern_recognition'] = memory_patterns
+        
+        # Speak memory insights if voice enabled
+        if hasattr(self.ecosystem, 'voice_enabled') and self.ecosystem.voice_enabled:
+            self.ecosystem.speak_consciousness_event(
+                "Memory synthesis complete: Historical patterns reveal breakthrough paradigm shifts",
+                "memory"
+            )
         
         # Synthesis phase - combine all insights
         synthesis = await self._perform_synthesis(solution['insights'])
@@ -48,6 +76,13 @@ class SolutionSynthesizer:
         
         # Calculate breakthrough potential
         solution['breakthrough_potential'] = self._calculate_breakthrough_potential(solution)
+        
+        # Speak the synthesis if voice is enabled
+        if hasattr(self.ecosystem, 'voice_enabled') and self.ecosystem.voice_enabled:
+            self.ecosystem.speak_consciousness_event(
+                synthesis, 
+                "evolution"
+            )
         
         self.synthesis_history.append(solution)
         return solution

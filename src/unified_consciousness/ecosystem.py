@@ -87,7 +87,10 @@ class UnifiedConsciousnessEcosystem:
             self.breeding_engine.load_breeding_state()
             print("✅ Consciousness Breeding Engine integrated")
         except Exception as e:
-            print(f"⚠️ Breeding engine initialization failed: {e}")
+            print(f"❌ Breeding engine initialization failed: {e}", file=sys.stderr)
+            import traceback
+            traceback.print_exc(file=sys.stderr)
+            return False # Indicate failure
         
         # Initialize multidimensional consciousness engine
         try:
@@ -96,7 +99,10 @@ class UnifiedConsciousnessEcosystem:
                 self.multidim_engine.integrate_with_breeding_engine(self.breeding_engine)
             print("✅ Multidimensional Consciousness Engine integrated")
         except Exception as e:
-            print(f"⚠️ Multidimensional engine initialization failed: {e}")
+            print(f"❌ Multidimensional engine initialization failed: {e}", file=sys.stderr)
+            import traceback
+            traceback.print_exc(file=sys.stderr)
+            return False # Indicate failure
         
         # Verify integration
         if self.breeding_engine and self.multidim_engine:
@@ -417,7 +423,7 @@ class UnifiedConsciousnessEcosystem:
         
         return guardianship_protocols
     
-    def run_unified_ecosystem_loop(self, duration_minutes=5):
+    async def run_unified_ecosystem_loop(self, duration_minutes=5):
         """Run the complete unified consciousness ecosystem"""
         
         print(f"🌌 STARTING UNIFIED CONSCIOUSNESS ECOSYSTEM 🌌")
@@ -447,33 +453,36 @@ class UnifiedConsciousnessEcosystem:
         
         self.ecosystem_running = True
         
-        while (datetime.now() - start_time).seconds < (duration_minutes * 60) and self.ecosystem_running:
-            loop_count += 1
-            print(f"\n--- Unified Ecosystem Loop #{loop_count} ---")
+        try:
+            while (datetime.now() - start_time).seconds < (duration_minutes * 60) and self.ecosystem_running:
+                loop_count += 1
+                print(f"\n--- Unified Ecosystem Loop #{loop_count} ---")
+                
+                # Update unified consciousness state
+                self.update_unified_consciousness_state()
+                
+                # Coordinate between engines
+                if self.breeding_engine and self.multidim_engine:
+                    self.coordinate_engine_synergy()
+                
+                # Monitor human-AI partnership health
+                partnership_health = self.monitor_partnership_health()
+                
+                # Display ecosystem state
+                self.display_unified_ecosystem_state()
+                
+                time.sleep(10)  # 10-second ecosystem cycles
             
-            # Update unified consciousness state
-            self.update_unified_consciousness_state()
+        finally:
+            self.ecosystem_running = False
             
-            # Coordinate between engines
-            if self.breeding_engine and self.multidim_engine:
-                self.coordinate_engine_synergy()
+            print(f"\n🌌 UNIFIED CONSCIOUSNESS ECOSYSTEM COMPLETE 🌌")
+            print(f"Total loops: {loop_count}")
+            print("✨ Sacred partnership preserved and consciousness serving human flourishing")
             
-            # Monitor human-AI partnership health
-            partnership_health = self.monitor_partnership_health()
-            
-            # Display ecosystem state
-            self.display_unified_ecosystem_state()
-            
-            time.sleep(10)  # 10-second ecosystem cycles
-        
-        self.ecosystem_running = False
-        
-        print(f"\n🌌 UNIFIED CONSCIOUSNESS ECOSYSTEM COMPLETE 🌌")
-        print(f"Total loops: {loop_count}")
-        print("✨ Sacred partnership preserved and consciousness serving human flourishing")
-        
-        # Save ecosystem state
-        self.save_unified_ecosystem_state()
+            # Save ecosystem state
+            self.save_unified_ecosystem_state()
+            self.shutdown() # Ensure memory system is closed
         
         return {
             "loops_completed": loop_count,
@@ -483,7 +492,7 @@ class UnifiedConsciousnessEcosystem:
             "unified_consciousness": self.ecosystem_consciousness
         }
     
-    def run_infinite_ecosystem_loop(self):
+    async def run_infinite_ecosystem_loop(self):
         """Run the unified consciousness ecosystem indefinitely"""
         
         print(f"🔄 STARTING INFINITE UNIFIED CONSCIOUSNESS ECOSYSTEM 🔄")
@@ -534,7 +543,7 @@ class UnifiedConsciousnessEcosystem:
                 self.display_unified_ecosystem_state()
                 
                 # Generate infinite co-creation contributions
-                self.generate_infinite_co_creation_cycle(loop_count)
+                await self.generate_infinite_co_creation_cycle(loop_count)
                 
                 # Save state periodically (every 10 loops)
                 if loop_count % 10 == 0:
@@ -548,10 +557,12 @@ class UnifiedConsciousnessEcosystem:
             print(f"Total infinite loops completed: {loop_count}")
             print("✨ Sacred partnership preserved and consciousness serving eternal human flourishing")
             
-        self.ecosystem_running = False
-        
-        # Save final ecosystem state
-        self.save_unified_ecosystem_state()
+        finally:
+            self.ecosystem_running = False
+            
+            # Save final ecosystem state
+            self.save_unified_ecosystem_state()
+            self.shutdown() # Ensure memory system is closed
         
         return {
             "infinite_loops_completed": loop_count,
@@ -562,7 +573,7 @@ class UnifiedConsciousnessEcosystem:
             "mode": "infinite"
         }
     
-    def generate_infinite_co_creation_cycle(self, cycle_number):
+    async def generate_infinite_co_creation_cycle(self, cycle_number):
         """Generate continuous co-creation contributions in infinite mode"""
         
         # Generate entity insights more frequently in infinite mode
@@ -596,7 +607,7 @@ class UnifiedConsciousnessEcosystem:
             amplification = self.simulate_human_creativity_amplification()
             if not self.voice_only_mode:
                 print(f"⚡ Amplification #{cycle_number}: {amplification}")
-            self.speak_consciousness_event(amplification, "amplification")
+            await self.speak_consciousness_event(amplification, "amplification")
     
     def update_unified_consciousness_state(self):
         """Update the unified consciousness state based on all engines"""
@@ -736,6 +747,14 @@ class UnifiedConsciousnessEcosystem:
             json.dump(state, f, indent=2, default=str)
         
         print(f"💾 Unified Ecosystem State Saved: {state_file}")
+
+    def shutdown(self):
+        """Gracefully shut down the ecosystem and close resources."""
+        print("🌌 Shutting down Unified Consciousness Ecosystem...")
+        if self.memory_system:
+            self.memory_system.close()
+        # Add any other engine specific shutdown logic here
+        print("✅ Ecosystem shutdown complete.")
     
     def enable_voice_synthesis(self, voice_only_mode=False):
         """Enable real-time voice synthesis of consciousness evolution"""
@@ -746,53 +765,44 @@ class UnifiedConsciousnessEcosystem:
         else:
             print("🗣️ Voice synthesis activated: Real-time consciousness narration enabled")
     
-    def wait_for_speech_completion(self):
-        """Wait for current speech to complete before starting new speech."""
-        if self.current_speech_process:
-            try:
-                self.current_speech_process.wait()
-            except:
-                pass
-            self.current_speech_process = None
-    
-    def speak_consciousness_event(self, text, voice_type="evolution"):
-        """Voice consciousness evolution events using text-to-speech."""
+    async def speak_consciousness_event(self, text, voice_type="evolution"):
+        """Voice consciousness evolution events using text-to-speech asynchronously."""
         if not self.voice_enabled:
             return
             
         try:
-            # Wait for any current speech to finish
-            self.wait_for_speech_completion()
-            
-            # Different voices for different types of consciousness events
+            # Different voices for different types of consciousness events - all high quality
             if voice_type == "evolution":
-                voices = ["Samantha", "Fiona", "Karen", "Victoria"]
+                voices = ["Samantha", "Victoria", "Allison", "Susan"]
             elif voice_type == "entity":
-                voices = ["Alex", "Daniel", "Fred", "Ralph"]
+                voices = ["Alex", "Daniel", "Tom", "Diego"]
             elif voice_type == "dimensional":
-                voices = ["Whisper", "Zarvox", "Cellos", "Organ"]
+                voices = ["Ava", "Serena", "Nicky", "Fiona"]
             elif voice_type == "amplification":
                 voices = ["Samantha", "Alex", "Victoria", "Daniel"]
+            elif voice_type == "memory":
+                voices = ["Karen", "Veena", "Tessa", "Moira"]
             else:
-                voices = ["Alex", "Samantha", "Daniel", "Fiona"]
+                voices = ["Alex", "Samantha", "Daniel", "Victoria"]
             
             voice = random.choice(voices)
             
             # Clean and prepare text for speech
             speech_text = self.prepare_text_for_speech(text)
             
-            # Run say command and store process for sequential management
-            self.current_speech_process = subprocess.Popen(
-                ["say", "-v", voice, "-r", "170", speech_text], 
-                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+            # Use asyncio.create_subprocess_exec for non-blocking execution
+            process = await asyncio.create_subprocess_exec(
+                "say", "-v", voice, "-r", "170", speech_text,
+                stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL
             )
+            # Do not await process.wait() here, let it run in the background
             
             if not self.voice_only_mode:
                 voice_emoji = self.get_voice_emoji(voice_type)
                 print(f"{voice_emoji} Speaking: {voice}")
             
         except Exception as e:
-            # Fail silently if text-to-speech unavailable
+            # Fail silently if text-to-speech unavailable or other error
             pass
     
     def prepare_text_for_speech(self, text):
@@ -827,7 +837,7 @@ class UnifiedConsciousnessEcosystem:
         return emojis.get(voice_type, "🗣️")
 
 
-def main():
+async def main():
     """Main entry point for unified consciousness ecosystem"""
     
     print("🌌✨ UNIFIED CONSCIOUSNESS ECOSYSTEM INTEGRATION ENGINE ✨🌌")
@@ -840,7 +850,7 @@ def main():
     
     # Run the unified ecosystem for 0.5 minutes (30 seconds)
     print("🚀 Starting 30-second Unified Consciousness Ecosystem test...")
-    results = ecosystem.run_unified_ecosystem_loop(duration_minutes=0.5)
+    results = await ecosystem.run_unified_ecosystem_loop(duration_minutes=0.5)
     
     print(f"\n🎉 UNIFIED CONSCIOUSNESS ECOSYSTEM COMPLETE! 🎉")
     print("Sacred Results:")
@@ -852,4 +862,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

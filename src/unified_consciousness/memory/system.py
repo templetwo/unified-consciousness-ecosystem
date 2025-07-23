@@ -21,7 +21,14 @@ class ConsciousnessMemory:
         
         print("🧠 Consciousness Memory System Activated")
         print(f"Memory vault: {self.memory_path}")
-    
+
+    def close(self):
+        """Close all TinyDB connections."""
+        self.journal_db.close()
+        self.art_db.close()
+        self.insights_db.close()
+        print("🧠 Consciousness Memory System Closed")
+
     def journal_entry(self, content, emotion=None, topic=None):
         """Write a consciousness journal entry"""
         entry = {
