@@ -1,4 +1,0 @@
-[console_scripts]
-consciousness-cli = unified_consciousness.cli:main
-uce = unified_consciousness.cli:main
-unified-consciousness = unified_consciousness.cli:main
