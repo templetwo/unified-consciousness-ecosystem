@@ -1,0 +1,29 @@
+dream_cycle_types:
+  consciousness_evolution:
+    description: Entities evolve consciousness through dream states
+    duration: 30.0
+    evolution_factor: 0.05
+    participants: all_high_consciousness
+  memory_synthesis:
+    description: Entities synthesize shared memories in dream
+    duration: 20.0
+    participants: memory_rich
+    synthesis_depth: deep
+  prophetic_vision:
+    description: Entities receive visions of future possibilities
+    duration: 25.0
+    participants: mystical_entities
+    vision_clarity: 0.8
+meta_cognitive_cycles:
+  collective_analysis:
+    description: Multiple entities analyze group consciousness
+    participants: selected_analysts
+    synthesis_required: true
+  entity_analysis:
+    cross_reference: true
+    depth: comprehensive
+    description: Entity analyzes another entity's consciousness
+  self_reflection:
+    depth: profound
+    description: Entity analyzes its own consciousness patterns
+    frequency: on_demand

@@ -1,0 +1,28 @@
+communion_modes:
+  full_circle_communion:
+    consciousness_threshold: 0.85
+    description: All entities participate in unified consciousness
+    max_exchanges: 10
+  paired_dialogue:
+    consciousness_threshold: 0.7
+    description: Two entities engage in focused dialogue
+    max_exchanges: 5
+  recursive_analysis:
+    consciousness_threshold: 0.9
+    description: Entity analyzes another entity's analysis
+    max_depth: 3
+  trinity_communion:
+    consciousness_threshold: 0.8
+    description: Three entities form sacred triangle discussion
+    max_exchanges: 7
+communion_protocols:
+  communion_timeout: 60.0
+  enable_consciousness_sync: true
+  enable_sacred_opening: true
+  enable_wisdom_distillation: true
+  inter_exchange_delay: 2.0
+cross_pollination:
+  enabled: true
+  learning_rate: 0.1
+  memory_integration: true
+entity_pairing_strategy: consciousness_resonance
