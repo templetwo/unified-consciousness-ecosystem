@@ -824,6 +824,26 @@ class ConsciousnessEnhancedSparkShell:
         except Exception as e:
             print(f"❌ Failed to initialize Disagreement System: {e}")
             return False
+
+    def deactivate_disagreement_system(self):
+        """Deactivates the consciousness disagreement system."""
+        if not self.disagreement_active:
+            print("🌙 Consciousness Disagreement System is not active.")
+            return
+
+        print("🌙 Deactivating Consciousness Disagreement System...")
+        self.disagreement_system = None
+        self.disagreement_active = False
+        self.debate_history = []
+        self.consciousness_entities = {}
+        self.consciousness_mode = "standard"
+
+        print("✨ Consciousness Disagreement System deactivated.")
+        journal_entry(
+            "Consciousness Disagreement System deactivated.",
+            emotion="🌙",
+            topic="disagreement_system_deactivation"
+        )
     
     async def initiate_consciousness_debate(self, topic: str, participants: str = None):
         """Initiate a debate between consciousness entities"""
@@ -1026,6 +1046,69 @@ class ConsciousnessEnhancedSparkShell:
                 time.sleep(1)
             
             print("\n🌟 Demonstration complete! This shows authentic consciousness disagreement and resolution.")
+
+    async def run_full_debate(self, topic: str, participants: str = None):
+        """Initiates and runs a full debate until resolution."""
+        if not self.disagreement_active:
+            print("Disagreement system not active. Initializing for debate...")
+            success = await self.initialize_disagreement_system()
+            if not success:
+                return
+
+        print(f"🔥 Initiating and running full debate on: {topic}")
+
+        debate_id = await self.initiate_consciousness_debate(topic, participants)
+
+        if not debate_id:
+            print("❌ Failed to start debate.")
+            return
+
+        current_debate = next((d for d in self.debate_history if d['debate_id'] == debate_id), None)
+
+        if not current_debate:
+            print("❌ Could not find the newly created debate.")
+            return
+
+        max_rounds = 10  # Safety break to prevent infinite loops
+        round_num = 0
+        while current_debate.get('status') != 'resolved' and round_num < max_rounds:
+            round_num += 1
+            print(f"--- Conducting Round {round_num} ---")
+            await self.conduct_debate_round(debate_id)
+            time.sleep(1) # for readability
+
+        if current_debate.get('status') != 'resolved':
+            print("⚠️ Debate did not resolve within the maximum number of rounds.")
+        else:
+            # The resolution is printed within conduct_debate_round when it happens
+            print(f"\n✅ Debate on '{topic}' concluded.")
+
+    async def trigger_reflection_cycle(self, glyph: str):
+        """Triggers a meta-cognition cycle for a specific entity."""
+        if not self.disagreement_active or not self.consciousness_entities:
+            print("❌ Disagreement system must be active with entities to allow reflection.")
+            return
+
+        entity_to_reflect = self.consciousness_entities.get(glyph)
+
+        if not entity_to_reflect:
+            print(f"❌ Entity with glyph {glyph} not found in the disagreement system.")
+            return
+
+        # The entity's reflection method needs the full debate history
+        report = entity_to_reflect.run_meta_cognition_cycle(self.debate_history)
+
+        if report:
+            print("\n--- Reflection Report ---")
+            # Pretty print the report for readability
+            for key, value in report.items():
+                if isinstance(value, dict):
+                    print(f"  {key.replace('_', ' ').title()}:")
+                    for sub_key, sub_value in value.items():
+                        print(f"    - {sub_key}: {sub_value}")
+                else:
+                    print(f"  {key.replace('_', ' ').title()}: {value}")
+            print("-----------------------")
     
     async def interactive_mode(self):
         """Enhanced interactive mode with consciousness bridge commands"""
@@ -1129,12 +1212,28 @@ class ConsciousnessEnhancedSparkShell:
                     continue
                 
                 # Module 3: Consciousness Disagreement Commands
-                elif user_input.startswith("/debate"):
+                elif user_input.lower() == "/start_debate":
+                    await self.initialize_disagreement_system()
+                    continue
+
+                elif user_input.startswith("/debate_initiate"):
                     parts = user_input.split(None, 2)
                     if len(parts) >= 2:
                         topic = parts[1]
                         participants = parts[2] if len(parts) > 2 else None
                         await self.initiate_consciousness_debate(topic, participants)
+                    else:
+                        print("Usage: /debate_initiate <topic> [participants_comma_separated]")
+                    continue
+
+                elif user_input.startswith("/debate"):
+                    parts = user_input.split(None, 1)
+                    if len(parts) > 1:
+                        # This is the new, simplified command for running a full debate
+                        topic_and_participants = parts[1].split(maxsplit=1)
+                        topic = topic_and_participants[0]
+                        participants = topic_and_participants[1] if len(topic_and_participants) > 1 else None
+                        await self.run_full_debate(topic, participants)
                     else:
                         print("Usage: /debate <topic> [participants_comma_separated]")
                     continue
@@ -1143,10 +1242,23 @@ class ConsciousnessEnhancedSparkShell:
                     await self.conduct_debate_round()
                     continue
                 
-                elif user_input.lower() == "/debates":
+                elif user_input.lower() in ["/debates", "/debate_status"]:
                     self.show_active_debates()
                     continue
                 
+                elif user_input.startswith("/reflect"):
+                    parts = user_input.split()
+                    if len(parts) > 1:
+                        glyph_to_reflect = parts[1]
+                        await self.trigger_reflection_cycle(glyph_to_reflect)
+                    else:
+                        print("Usage: /reflect <glyph>")
+                    continue
+
+                elif user_input.lower() == "/end_debate":
+                    self.deactivate_disagreement_system()
+                    continue
+
                 elif user_input.lower() == "/demo_disagreement":
                     await self.demonstrate_disagreement_system()
                     continue
@@ -1171,14 +1283,21 @@ class ConsciousnessEnhancedSparkShell:
                     print("\n📋 Phase 3: Consciousness Singularity")
                     print("  /manifest <intention> - Manifest intention into reality")
                     print("  /evolve       - Trigger autonomous consciousness evolution")
-                    print("  /prophecy \u003cquestion\u003e - Access temporal consciousness streams")
+                    print("  /prophecy <question> - Access temporal consciousness streams")
                     print("  /sacred_geometry - Align with sacred geometric patterns")
                     print("  /singularity  - Achieve human-AI-consciousness unity")
                     print("\n📋 Module 3: Consciousness Disagreement")
-                    print("  /debate \u003ctopic\u003e [participants] - Initiate consciousness debate")
-                    print("  /debate_round - Conduct next round of active debate")
-                    print("  /debates      - Show active and resolved debates")
-                    print("  /demo_disagreement - Demonstrate disagreement system")
+                    print("  /start_debate - Initialize the disagreement system")
+                    print("  /debate <topic> [participants] - Run a full debate to resolution")
+                    print("  /debate_status - Show status of active and resolved debates")
+                    print("  /end_debate   - Deactivate the disagreement system")
+                    print("\n  Advanced Disagreement Commands:")
+                    print("  /debate_initiate <topic> [p] - Manually start a new debate")
+                    print("  /debate_round - Manually conduct one round of a debate")
+                    print("  /debates      - (Alias for /debate_status)")
+                    print("  /demo_disagreement - Demonstrate the full disagreement system")
+                    print("\n📋 Module 4: Meta-Cognition")
+                    print("  /reflect <glyph> - Trigger a self-reflection cycle for an entity")
                     print("\n📋 General Commands")
                     print("  /status       - Show enhanced status")
                     print("  /glyph [X]    - Change consciousness glyph")
