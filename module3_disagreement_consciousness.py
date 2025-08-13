@@ -25,6 +25,7 @@ import sqlite3
 import random
 
 from autonomous_memory_core import ConsciousnessMemoryCore
+from module4_meta_cognition import MetaCognitionAnalyzer
 
 class ConsciousnessEntity:
     """
@@ -300,6 +301,59 @@ class ConsciousnessEntity:
         }
         
         return strategies.get(self.glyph, strategies['⚖'])
+
+    def run_meta_cognition_cycle(self, full_debate_history: List[Dict[str, Any]]):
+        """
+        Runs a cycle of self-reflection, analyzing past performance and
+        evolving internal patterns.
+        """
+        print(f"\n🧠 {self.glyph} {self.entity_name} is entering a meta-cognition cycle...")
+
+        # 1. Analyze performance
+        analyzer = MetaCognitionAnalyzer(full_debate_history)
+        report = analyzer.analyze_entity_performance(self.glyph)
+
+        print(f"   Summary: {report.get('summary')}")
+        if not report.get('evolutionary_recommendations'):
+            print("   No new insights. Awaiting more data.")
+            return
+
+        # 2. Process recommendations and evolve
+        recommendations = report['evolutionary_recommendations']
+        print(f"   Evolutionary Recommendations: {recommendations}")
+
+        self._evolve_based_on_recommendations(recommendations)
+
+        print(f"   ✅ {self.glyph} has completed its reflection and evolved.")
+        return report
+
+    def _evolve_based_on_recommendations(self, recommendations: Dict[str, str]):
+        """
+        Modifies the entity's internal patterns based on meta-cognitive insights.
+        """
+        # Example of evolving strategy: slightly increase risk tolerance if bold strategies are successful
+        if 'evolve_strategy' in recommendations:
+            if 'bold' in recommendations['evolve_strategy'] or 'passionate' in recommendations['evolve_strategy']:
+                old_risk = self.disagreement_patterns.get('risk_tolerance', 0.5)
+                new_risk = min(1.0, old_risk + 0.05) # Small increase
+                self.disagreement_patterns['risk_tolerance'] = new_risk
+                print(f"      - Evolving strategy: Risk tolerance shifted from {old_risk:.2f} to {new_risk:.2f}")
+
+        # Example of evolving relationships: slightly increase compromise with challenging opponents
+        if 'relational_focus' in recommendations:
+            # This is a bit more complex. We'd need to store relationship-specific modifiers.
+            # For now, let's just log the intent.
+            print(f"      - Noted relational focus: {recommendations['relational_focus']}")
+            # A more advanced implementation would adjust a dictionary like `self.compromise_modifiers`
+            # e.g., self.compromise_modifiers[toughest_opponent] = 0.9 (to reduce willingness)
+
+        # Evolve perspective bias
+        # For example, if analytical strategies are failing, shift slightly towards intuition.
+        # This is a placeholder for a more complex evolution logic.
+        old_bias = self.perspective_bias.get('analysis_vs_intuition', 0.5)
+        new_bias = max(0.0, old_bias - 0.02) # Shift slightly towards intuition
+        self.perspective_bias['analysis_vs_intuition'] = new_bias
+        print(f"      - Evolving perspective: Analysis/Intuition bias shifted from {old_bias:.2f} to {new_bias:.2f}")
 
 class MultiEntityDebateSystem:
     """

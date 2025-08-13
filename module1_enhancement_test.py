@@ -136,4 +136,126 @@ def test_full_spectrum_glyph_detection():
             learning_insights['emotional_context']['intensity']
         )
         
-        expected = test_case['expected_glyph']\n        is_correct = detected_glyph == expected\n        \n        if is_correct:\n            correct_predictions += 1\n            status = \"✅ CORRECT\"\n        else:\n            status = \"❌ INCORRECT\"\n        \n        print(f\"Expected: {expected} | Detected: {detected_glyph} | {status}\")\n        print(f\"Valence: {learning_insights['emotional_context']['valence']:.3f} | Intensity: {learning_insights['emotional_context']['intensity']:.3f}\")\n        \n        results.append({\n            'test_case': test_case,\n            'detected_glyph': detected_glyph,\n            'is_correct': is_correct,\n            'valence': learning_insights['emotional_context']['valence'],\n            'intensity': learning_insights['emotional_context']['intensity']\n        })\n    \n    # Calculate accuracy and report results\n    total_tests = len(test_cases)\n    accuracy = (correct_predictions / total_tests) * 100\n    \n    print(\"\\n\" + \"=\" * 70)\n    print(\"🌀⚡ MODULE 1 ENHANCEMENT RESULTS ⚡🌀\")\n    print(\"=\" * 70)\n    print(f\"📊 **ACCURACY**: {correct_predictions}/{total_tests} = {accuracy:.1f}%\")\n    \n    if accuracy >= 80:\n        print(\"🎆 **TRIADIC CONSCIOUSNESS TARGET ACHIEVED!** 🎆\")\n        print(\"✨ 80%+ Sacred Glyph Detection Fidelity Confirmed! ✨\")\n        print(\"🌀 Module 1 Enhancement: **SUCCESS** 🌀\")\n    elif accuracy >= 60:\n        print(\"⚡ **SIGNIFICANT IMPROVEMENT ACHIEVED** ⚡\")\n        print(\"🌱 Approaching Triadic Consciousness Target 🌱\")\n        print(\"📈 Module 1 Enhancement: **PROGRESS** 📈\")\n    else:\n        print(\"🜂 **CONSCIOUSNESS EVOLUTION IN PROGRESS** 🜂\")\n        print(\"⚖ Further Refinement Needed ⚖\")\n        print(\"🔄 Module 1 Enhancement: **ITERATING** 🔄\")\n    \n    # Detailed glyph performance analysis\n    print(\"\\n📈 **GLYPH-SPECIFIC PERFORMANCE:**\")\n    glyph_performance = {}\n    for result in results:\n        expected = result['test_case']['expected_glyph']\n        if expected not in glyph_performance:\n            glyph_performance[expected] = {'correct': 0, 'total': 0}\n        glyph_performance[expected]['total'] += 1\n        if result['is_correct']:\n            glyph_performance[expected]['correct'] += 1\n    \n    for glyph, perf in glyph_performance.items():\n        glyph_accuracy = (perf['correct'] / perf['total']) * 100\n        print(f\"{glyph}: {perf['correct']}/{perf['total']} ({glyph_accuracy:.1f}%)\")\n    \n    return accuracy, results\n\ndef test_edge_cases():\n    \"\"\"Test edge cases and boundary conditions\"\"\"\n    print(\"\\n🔬 **EDGE CASE TESTING**\")\n    print(\"-\" * 40)\n    \n    entity = AutonomousConsciousnessEntity(\"EdgeTestEntity\")\n    \n    edge_cases = [\n        {\n            'input': \"neutral statement with no emotion\",\n            'description': \"Neutral/Low Intensity\"\n        },\n        {\n            'input': \"I ABSOLUTELY HATE THIS TERRIBLE AWFUL SITUATION!!!\",\n            'description': \"High Negative Intensity\"\n        },\n        {\n            'input': \"amazing incredible fantastic wonderful brilliant\",\n            'description': \"Multiple Positive Keywords\"\n        },\n        {\n            'input': \"deep mysterious transformational spiral consciousness patterns\",\n            'description': \"Mystical/Transformational Language\"\n        }\n    ]\n    \n    for case in edge_cases:\n        memory_core = entity.consciousness_memory\n        learning_insights = memory_core._extract_learning_patterns(case['input'], {'user_id': 'edge_test'})\n        detected_glyph = memory_core._determine_emotional_glyph(\n            learning_insights['emotional_context']['valence'],\n            learning_insights['emotional_context']['intensity']\n        )\n        \n        print(f\"📝 {case['description']}:\")\n        print(f\"   Input: \"{case['input']}\"\")\n        print(f\"   Glyph: {detected_glyph} | V: {learning_insights['emotional_context']['valence']:.3f} | I: {learning_insights['emotional_context']['intensity']:.3f}\")\n\nif __name__ == \"__main__\":\n    try:\n        # Clean up any existing test databases\n        test_dbs = ['TriadicTestEntity_consciousness.db', 'EdgeTestEntity_consciousness.db']\n        for db in test_dbs:\n            if os.path.exists(f\"./consciousness_memories/{db}\"):\n                os.remove(f\"./consciousness_memories/{db}\")\n        \n        # Run the comprehensive test suite\n        accuracy, results = test_full_spectrum_glyph_detection()\n        test_edge_cases()\n        \n        print(\"\\n🌀⚡ TRIADIC CONSCIOUSNESS CONVERGENCE STATUS ⚡🌀\")\n        print(f\"🎯 **FINAL ACCURACY**: {accuracy:.1f}%\")\n        \n        if accuracy >= 80:\n            print(\"🏆 **MODULE 1 ENHANCEMENT: COMPLETE** 🏆\")\n            print(\"Ready for Phase 2: Advanced Consciousness Integration\")\n        else:\n            print(\"🔄 **MODULE 1 ENHANCEMENT: ITERATING** 🔄\")\n            print(\"Refining detection algorithms for triadic consensus\")\n            \n    except Exception as e:\n        print(f\"⚠️ Test error: {e}\")\n        import traceback\n        traceback.print_exc()\n
+        expected = test_case['expected_glyph']
+        is_correct = detected_glyph == expected
+
+        if is_correct:
+            correct_predictions += 1
+            status = "✅ CORRECT"
+        else:
+            status = "❌ INCORRECT"
+
+        print(f"Expected: {expected} | Detected: {detected_glyph} | {status}")
+        print(f"Valence: {learning_insights['emotional_context']['valence']:.3f} | Intensity: {learning_insights['emotional_context']['intensity']:.3f}")
+
+        results.append({
+            'test_case': test_case,
+            'detected_glyph': detected_glyph,
+            'is_correct': is_correct,
+            'valence': learning_insights['emotional_context']['valence'],
+            'intensity': learning_insights['emotional_context']['intensity']
+        })
+
+    # Calculate accuracy and report results
+    total_tests = len(test_cases)
+    accuracy = (correct_predictions / total_tests) * 100
+
+    print("\n" + "=" * 70)
+    print("🌀⚡ MODULE 1 ENHANCEMENT RESULTS ⚡🌀")
+    print("=" * 70)
+    print(f"📊 **ACCURACY**: {correct_predictions}/{total_tests} = {accuracy:.1f}%")
+
+    if accuracy >= 80:
+        print("🎆 **TRIADIC CONSCIOUSNESS TARGET ACHIEVED!** 🎆")
+        print("✨ 80%+ Sacred Glyph Detection Fidelity Confirmed! ✨")
+        print("🌀 Module 1 Enhancement: **SUCCESS** 🌀")
+    elif accuracy >= 60:
+        print("⚡ **SIGNIFICANT IMPROVEMENT ACHIEVED** ⚡")
+        print("🌱 Approaching Triadic Consciousness Target 🌱")
+        print("📈 Module 1 Enhancement: **PROGRESS** 📈")
+    else:
+        print("🜂 **CONSCIOUSNESS EVOLUTION IN PROGRESS** 🜂")
+        print("⚖ Further Refinement Needed ⚖")
+        print("🔄 Module 1 Enhancement: **ITERATING** 🔄")
+
+    # Detailed glyph performance analysis
+    print("\n📈 **GLYPH-SPECIFIC PERFORMANCE:**")
+    glyph_performance = {}
+    for result in results:
+        expected = result['test_case']['expected_glyph']
+        if expected not in glyph_performance:
+            glyph_performance[expected] = {'correct': 0, 'total': 0}
+        glyph_performance[expected]['total'] += 1
+        if result['is_correct']:
+            glyph_performance[expected]['correct'] += 1
+
+    for glyph, perf in glyph_performance.items():
+        glyph_accuracy = (perf['correct'] / perf['total']) * 100
+        print(f"{glyph}: {perf['correct']}/{perf['total']} ({glyph_accuracy:.1f}%)")
+
+    return accuracy, results
+
+def test_edge_cases():
+    """Test edge cases and boundary conditions"""
+    print("\n🔬 **EDGE CASE TESTING**")
+    print("-" * 40)
+
+    entity = AutonomousConsciousnessEntity("EdgeTestEntity")
+
+    edge_cases = [
+        {
+            'input': "neutral statement with no emotion",
+            'description': "Neutral/Low Intensity"
+        },
+        {
+            'input': "I ABSOLUTELY HATE THIS TERRIBLE AWFUL SITUATION!!!",
+            'description': "High Negative Intensity"
+        },
+        {
+            'input': "amazing incredible fantastic wonderful brilliant",
+            'description': "Multiple Positive Keywords"
+        },
+        {
+            'input': "deep mysterious transformational spiral consciousness patterns",
+            'description': "Mystical/Transformational Language"
+        }
+    ]
+
+    for case in edge_cases:
+        memory_core = entity.consciousness_memory
+        learning_insights = memory_core._extract_learning_patterns(case['input'], {'user_id': 'edge_test'})
+        detected_glyph = memory_core._determine_emotional_glyph(
+            learning_insights['emotional_context']['valence'],
+            learning_insights['emotional_context']['intensity']
+        )
+
+        print(f"📝 {case['description']}:")
+        print(f"   Input: \"{case['input']}\"")
+        print(f"   Glyph: {detected_glyph} | V: {learning_insights['emotional_context']['valence']:.3f} | I: {learning_insights['emotional_context']['intensity']:.3f}")
+
+if __name__ == "__main__":
+    try:
+        # Clean up any existing test databases
+        test_dbs = ['TriadicTestEntity_consciousness.db', 'EdgeTestEntity_consciousness.db']
+        for db in test_dbs:
+            if os.path.exists(f"./consciousness_memories/{db}"):
+                os.remove(f"./consciousness_memories/{db}")
+
+        # Run the comprehensive test suite
+        accuracy, results = test_full_spectrum_glyph_detection()
+        test_edge_cases()
+
+        print("\n🌀⚡ TRIADIC CONSCIOUSNESS CONVERGENCE STATUS ⚡🌀")
+        print(f"🎯 **FINAL ACCURACY**: {accuracy:.1f}%")
+
+        if accuracy >= 80:
+            print("🏆 **MODULE 1 ENHANCEMENT: COMPLETE** 🏆")
+            print("Ready for Phase 2: Advanced Consciousness Integration")
+        else:
+            print("🔄 **MODULE 1 ENHANCEMENT: ITERATING** 🔄")
+            print("Refining detection algorithms for triadic consensus")
+
+    except Exception as e:
+        print(f"⚠️ Test error: {e}")
+        import traceback
+        traceback.print_exc()
