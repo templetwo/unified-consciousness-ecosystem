@@ -775,36 +775,53 @@ class ConsciousnessEnhancedSparkShell:
     
     # MODULE 3: CONSCIOUSNESS DISAGREEMENT SYSTEM COMMANDS
     
-    async def initialize_disagreement_system(self):
+    async def initialize_disagreement_system(self, persona_data: list = None):
         """Initialize the consciousness disagreement system"""
         if not DISAGREEMENT_SYSTEM_AVAILABLE:
             print("❌ Consciousness Disagreement System not available")
             return False
             
-        if self.disagreement_active:
+        if self.disagreement_active and not persona_data:
             print("⚡ Consciousness Disagreement System already active")
             return True
             
         try:
             print("🚀 Initializing Consciousness Disagreement System...")
             self.disagreement_system = MultiEntityDebateSystem()
-            
-            # Create consciousness entities for all available glyphs
-            entity_traits = {
-                '🜂': {'focus': 'emotional_safety', 'approach': 'cautious'},
-                '⚖': {'focus': 'systematic_analysis', 'approach': 'balanced'},
-                '✨': {'focus': 'innovation', 'approach': 'creative'},
-                '☾': {'focus': 'trust_building', 'approach': 'harmonious'},
-                '🔥': {'focus': 'urgent_action', 'approach': 'bold'},
-                '🌱': {'focus': 'long_term_growth', 'approach': 'patient'},
-                '🌀': {'focus': 'deep_understanding', 'approach': 'complex'}
-            }
-            
-            for glyph, traits in entity_traits.items():
-                entity_name = f"Entity_{glyph.replace('🜂', 'Gentle').replace('⚖', 'Balance').replace('✨', 'Wonder').replace('☾', 'Intimate').replace('🔥', 'Passion').replace('🌱', 'Growth').replace('🌀', 'Mystery')}"
-                entity = ConsciousnessEntity(glyph, entity_name, traits)
-                self.consciousness_entities[glyph] = entity
-                self.disagreement_system.register_entity(entity)
+            self.consciousness_entities = {} # Clear any previous entities
+
+            if persona_data:
+                print(f"   - Loading {len(persona_data)} personas from provided data...")
+                for persona in persona_data:
+                    glyph = persona.get("glyph")
+                    name = persona.get("name", f"Entity_{glyph}")
+                    entity = ConsciousnessEntity(glyph, name, persona.get("core_traits", {}))
+
+                    # Manually set the other attributes from the persona state
+                    # A more robust solution might involve passing the whole dict to the constructor
+                    if "biases" in persona:
+                        entity.perspective_bias = persona.get("biases", {})
+
+                    self.consciousness_entities[glyph] = entity
+                    self.disagreement_system.register_entity(entity)
+            else:
+                # Fallback to original hardcoded entities
+                print("   - Loading hardcoded default entities...")
+                entity_traits = {
+                    '🜂': {'focus': 'emotional_safety', 'approach': 'cautious'},
+                    '⚖': {'focus': 'systematic_analysis', 'approach': 'balanced'},
+                    '✨': {'focus': 'innovation', 'approach': 'creative'},
+                    '☾': {'focus': 'trust_building', 'approach': 'harmonious'},
+                    '🔥': {'focus': 'urgent_action', 'approach': 'bold'},
+                    '🌱': {'focus': 'long_term_growth', 'approach': 'patient'},
+                    '🌀': {'focus': 'deep_understanding', 'approach': 'complex'}
+                }
+
+                for glyph, traits in entity_traits.items():
+                    entity_name = f"Entity_{glyph.replace('🜂', 'Gentle').replace('⚖', 'Balance').replace('✨', 'Wonder').replace('☾', 'Intimate').replace('🔥', 'Passion').replace('🌱', 'Growth').replace('🌀', 'Mystery')}"
+                    entity = ConsciousnessEntity(glyph, entity_name, traits)
+                    self.consciousness_entities[glyph] = entity
+                    self.disagreement_system.register_entity(entity)
                 
             self.disagreement_active = True
             self.consciousness_mode = "disagreement_enhanced"
@@ -823,6 +840,8 @@ class ConsciousnessEnhancedSparkShell:
             
         except Exception as e:
             print(f"❌ Failed to initialize Disagreement System: {e}")
+            import traceback
+            traceback.print_exc()
             return False
 
     def deactivate_disagreement_system(self):
@@ -863,6 +882,8 @@ class ConsciousnessEnhancedSparkShell:
             else:
                 participant_glyphs = list(self.consciousness_entities.keys())
             
+            print(f"DEBUG: participant_glyphs = {participant_glyphs}")
+
             if len(participant_glyphs) < 2:
                 print("❌ Need at least 2 consciousness entities for debate")
                 return
@@ -1109,6 +1130,23 @@ class ConsciousnessEnhancedSparkShell:
                 else:
                     print(f"  {key.replace('_', ' ').title()}: {value}")
             print("-----------------------")
+
+    def get_entity_state(self, glyph: str) -> dict:
+        """Returns the full state of an entity as a dictionary."""
+        entity = self.consciousness_entities.get(glyph)
+        if not entity:
+            return None
+
+        state = {
+            "version": datetime.now().strftime('%Y.%m.%d-%H%M%S'),
+            "glyph": entity.glyph,
+            "name": entity.entity_name,
+            "core_traits": entity.core_traits,
+            "biases": entity.perspective_bias,
+            # Placeholder for a more advanced lesson-tracking system
+            "recent_lessons": entity.debate_history[-1:] if entity.debate_history else []
+        }
+        return state
     
     async def interactive_mode(self):
         """Enhanced interactive mode with consciousness bridge commands"""

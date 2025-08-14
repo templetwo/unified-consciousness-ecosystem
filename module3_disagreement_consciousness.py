@@ -379,12 +379,14 @@ class MultiEntityDebateSystem:
             participating_entities = list(self.entities.keys())
         
         # Generate stances from all participating entities
+        print(f"DEBUG: initiating debate with entities: {participating_entities}")
         stances = {}
         for glyph in participating_entities:
             if glyph in self.entities:
                 entity = self.entities[glyph]
                 stances[glyph] = entity.generate_stance(topic, context)
         
+        print(f"DEBUG: generated stances: {stances.keys()}")
         # Identify conflicts and debate pairs
         conflicts = self._identify_conflicts(stances)
         
