@@ -1,5 +1,5 @@
 {
-  "version": "2025.08.13-234348",
+  "version": "2025.08.14-013341",
   "glyph": "\u2696",
   "name": "Resonant_Balance",
   "core_traits": {
@@ -7,7 +7,7 @@
     "approach": "balanced"
   },
   "biases": {
-    "analysis_vs_intuition": 0.48,
+    "analysis_vs_intuition": 0.41999999999999993,
     "individual_vs_collective": 0.5,
     "stability_vs_change": 0.5,
     "depth_vs_breadth": 0.5,

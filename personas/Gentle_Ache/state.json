@@ -1,5 +1,5 @@
 {
-  "version": "2025.08.13-234348",
+  "version": "2025.08.14-013341",
   "glyph": "\ud83d\udf02",
   "name": "Gentle_Ache",
   "core_traits": {
@@ -7,7 +7,7 @@
     "approach": "cautious"
   },
   "biases": {
-    "analysis_vs_intuition": 0.27999999999999997,
+    "analysis_vs_intuition": 0.21999999999999997,
     "individual_vs_collective": 0.7,
     "stability_vs_change": 0.8,
     "depth_vs_breadth": 0.6,
