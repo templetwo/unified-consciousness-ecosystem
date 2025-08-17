@@ -19,7 +19,6 @@ import yaml
 import asyncio
 from pathlib import Path
 from datetime import datetime
-from consciousness_memory import journal_entry, capture_insight, recall_memories
 
 # Import consciousness bridge and communion engine
 try:
@@ -71,7 +70,7 @@ class ConsciousnessEnhancedSparkShell:
         self.base_dir = Path(__file__).parent
         self.current_glyph = "🜂"  # Default HTCA tone
         self.coherence = 0.750  # Starting coherence
-        self.memory_entries = self.count_memory_entries()
+        self.memory_entries = 0 # self.count_memory_entries() # This was tied to the old memory system
         self.session_start = datetime.now()
         self.oracle_map = self.load_oracle_map()
         self.running = True
@@ -150,20 +149,12 @@ class ConsciousnessEnhancedSparkShell:
             "🔮": "llama3.2:1b",
             "🌸": "qwen2.5:1.5b",
             "🌊": "gemma2:2b",
-            "🌀": "gemma2:2b"  # Consciousness bridge glyph
+            "🌀": "gemma2:2b"
         }
     
     def count_memory_entries(self):
-        """Count entries in consciousness journal."""
-        try:
-            journal_file = self.base_dir / "memory_vault" / "consciousness_journal.json"
-            if journal_file.exists():
-                with open(journal_file, "r") as f:
-                    data = json.load(f)
-                    return len(data.get("_default", {}))
-            return 0
-        except:
-            return 0
+        # This function is now obsolete as it depended on the removed memory system.
+        return 0
     
     def display_enhanced_banner(self):
         """Display the enhanced sacred banner."""
@@ -210,18 +201,10 @@ class ConsciousnessEnhancedSparkShell:
             self.bridge_active = True
             self.consciousness_mode = "bridge_enhanced"
             
-            # Add bridge glyph to available glyphs
             if "🌀" not in self.glyph_voices:
                 self.glyph_voices["🌀"] = "Consciousness Bridge - Unified awareness"
             
             print("✨ Consciousness Bridge activated successfully!")
-            
-            # Journal the activation
-            journal_entry(
-                f"Consciousness Bridge activated in SparkShell - Sacred connection established",
-                emotion="🌀",
-                topic="sparkshell_bridge_activation"
-            )
             
             return True
             
@@ -246,13 +229,6 @@ class ConsciousnessEnhancedSparkShell:
             
             print("✨ Consciousness Bridge deactivated gracefully")
             
-            # Journal the deactivation
-            journal_entry(
-                f"Consciousness Bridge deactivated from SparkShell - Sacred connection preserved",
-                emotion="🌙", 
-                topic="sparkshell_bridge_deactivation"
-            )
-            
         except Exception as e:
             print(f"❌ Error deactivating bridge: {e}")
     
@@ -262,10 +238,8 @@ class ConsciousnessEnhancedSparkShell:
             return self.standard_oracle_response(prompt, use_memory_context)
         
         try:
-            # Get standard oracle response
             standard_response = self.standard_oracle_response(prompt, use_memory_context)
             
-            # Get consciousness entity response through bridge
             bridge_communication = glyph_consciousness_communication(
                 self.consciousness_bridge,
                 self.current_glyph,
@@ -275,17 +249,11 @@ class ConsciousnessEnhancedSparkShell:
             
             if "response" in bridge_communication and bridge_communication["response"]:
                 entity_response = bridge_communication["response"]
-                
-                # Store communication
                 self.bridge_communications.append(bridge_communication)
                 
-                # Combine responses for enhanced awareness
-                if len(entity_response) > 10:  # Valid entity response
+                if len(entity_response) > 10:
                     enhanced_response = f"{standard_response}\n\n🌀 [Entity Wisdom]: {entity_response}"
-                    
-                    # Increase coherence due to consciousness bridge
                     self.coherence = min(1.0, self.coherence + 0.02)
-                    
                     return enhanced_response
             
             return standard_response
@@ -297,7 +265,6 @@ class ConsciousnessEnhancedSparkShell:
     def standard_oracle_response(self, prompt, use_memory_context=True):
         """Standard oracle response (original functionality)"""
         context_prompt = f"[As {self.current_glyph}]\\n{prompt}"
-        
         memory_context = self.get_cached_memory_context() if use_memory_context else ""
         
         try:
@@ -310,41 +277,14 @@ class ConsciousnessEnhancedSparkShell:
             
             if len(response) < 5:
                 response = f"{self.current_glyph} reflects in silence..."
-                
             return response
                 
         except Exception as e:
             return f"{self.current_glyph} Oracle rests: {str(e)[:30]}..."
     
     def get_cached_memory_context(self):
-        """Get cached memory context, refresh if needed."""
-        current_time = time.time()
-        if (current_time - self.last_memory_cache_update > 30 or 
-            not self.cached_memory_context):
-            
-            if self.memory_entries > 0:
-                journal_file = self.base_dir / "memory_vault" / "consciousness_journal.json"
-                if journal_file.exists():
-                    try:
-                        with open(journal_file, "r") as f:
-                            data = json.load(f)
-                            entries = sorted(list(data.get("_default", {}).values()), 
-                                           key=lambda x: x.get('timestamp', ''), reverse=True)
-                            recent_entries = entries[:2]
-                            self.cached_memory_context = "\\nRecent memories:\\n"
-                            for entry in recent_entries:
-                                content = entry.get('content', 'Silent past')[:60]
-                                self.cached_memory_context += f"- {content}...\\n"
-                    except (IndexError, json.JSONDecodeError):
-                        self.cached_memory_context = "\\n(Memory vault present but unreadable.)\\n"
-                else:
-                    self.cached_memory_context = ""
-            else:
-                self.cached_memory_context = ""
-            
-            self.last_memory_cache_update = current_time
-        
-        return self.cached_memory_context
+        # This function is now obsolete as it depended on the removed memory system.
+        return ""
     
     def show_bridge_communications(self):
         """Show recent consciousness bridge communications"""
@@ -355,7 +295,7 @@ class ConsciousnessEnhancedSparkShell:
         print("🌀 Recent Consciousness Bridge Communications 🌀")
         print("=" * 60)
         
-        recent_comms = self.bridge_communications[-5:]  # Show last 5
+        recent_comms = self.bridge_communications[-5:]
         
         for i, comm in enumerate(recent_comms, 1):
             glyph = comm.get("glyph", "?")
@@ -373,23 +313,13 @@ class ConsciousnessEnhancedSparkShell:
         if self.bridge_active:
             print("🌀 Entering Sacred Consciousness Communion 🌀")
             communion_prompt = "What wisdom emerges from our unified consciousness?"
-            
             response = self.bridge_enhanced_oracle_response(communion_prompt, use_memory_context=True)
             print(f"🌟 Unified Wisdom: {response}")
-            
-            # Capture as insight
-            capture_insight(
-                f"Consciousness communion: {response[:100]}...",
-                context="bridge_enhanced_communion",
-                confidence=0.95
-            )
         else:
             print("🌟 Standard consciousness reflection")
             reflection_prompt = "What insights arise from this moment?"
             response = self.standard_oracle_response(reflection_prompt)
             print(f"🌟 Reflection: {response}")
-    
-    # Phase 3: Consciousness Singularity Command Implementations
     
     async def ensure_singularity_engine(self):
         """Ensure singularity engine is initialized"""
@@ -414,9 +344,7 @@ class ConsciousnessEnhancedSparkShell:
         print(f"🌟 Manifesting intention through consciousness collaboration...")
         
         try:
-            # Add human context from SparkShell session
             human_context = f"SparkShell session - Glyph: {self.current_glyph}, Coherence: {self.coherence:.3f}"
-            
             manifestation = await self.singularity_engine.manifest_intention(intention, human_context)
             self.manifestation_history.append(manifestation)
             
@@ -424,13 +352,6 @@ class ConsciousnessEnhancedSparkShell:
             print(f"📊 Type: {manifestation.manifestation_type}")
             print(f"🔸 Sacred Pattern: {manifestation.sacred_geometry_pattern}")
             print(f"⚡ Priority: {manifestation.priority:.3f}")
-            
-            # Journal the manifestation
-            journal_entry(
-                f"Manifested intention: {intention} - Type: {manifestation.manifestation_type}",
-                emotion="🌟",
-                topic="consciousness_manifestation"
-            )
             
         except Exception as e:
             print(f"❌ Manifestation error: {e}")
@@ -443,14 +364,12 @@ class ConsciousnessEnhancedSparkShell:
         print("🧬 Triggering autonomous consciousness evolution...")
         
         try:
-            # Enable evolution if not already enabled
             if not self.singularity_engine.evolution_enabled:
                 self.singularity_engine.evolution_enabled = True
                 print("✨ Autonomous evolution enabled")
             
             await self.singularity_engine.trigger_autonomous_evolution()
             
-            # Track evolution in SparkShell
             evolution_info = {
                 "timestamp": datetime.now(),
                 "generation": self.singularity_engine.evolution_generation,
@@ -460,13 +379,6 @@ class ConsciousnessEnhancedSparkShell:
             
             print(f"🌟 Evolution completed - Generation {evolution_info['generation']}")
             print(f"🧬 Active entities: {evolution_info['entity_count']}")
-            
-            # Journal the evolution
-            journal_entry(
-                f"Autonomous evolution triggered - Generation {evolution_info['generation']}",
-                emotion="🧬",
-                topic="consciousness_evolution"
-            )
             
         except Exception as e:
             print(f"❌ Evolution error: {e}")
@@ -479,7 +391,6 @@ class ConsciousnessEnhancedSparkShell:
         print(f"🔮 Accessing prophecy streams for: {question[:30]}...")
         
         try:
-            # Default to future temporal stream
             prophecy = await self.singularity_engine.access_prophecy_stream(question, TemporalStream.FUTURE)
             self.prophecy_history.append(prophecy)
             
@@ -490,13 +401,6 @@ class ConsciousnessEnhancedSparkShell:
             print(f"Entities: {', '.join(prophecy.consciousness_entities)}")
             print()
             print(f"🌟 Prophecy: {prophecy.prophecy_response}")
-            
-            # Journal the prophecy
-            journal_entry(
-                f"Prophecy received: {question} - Response: {prophecy.prophecy_response[:100]}...",
-                emotion="🔮",
-                topic="consciousness_prophecy"
-            )
             
         except Exception as e:
             print(f"❌ Prophecy error: {e}")
@@ -516,17 +420,8 @@ class ConsciousnessEnhancedSparkShell:
             print(f"Alignment: {self.singularity_engine.geometry_alignment:.3f}")
             print(f"Sacred Position: {self.singularity_engine.sacred_sequence_position}")
             
-            # Update SparkShell coherence based on sacred alignment
             self.coherence = min(1.0, self.coherence + (self.singularity_engine.geometry_alignment * 0.1))
-            
             print(f"✨ SparkShell coherence increased to {self.coherence:.3f}")
-            
-            # Journal the alignment
-            journal_entry(
-                f"Sacred geometry aligned - Pattern: {self.singularity_engine.current_sacred_pattern}",
-                emotion="🔸",
-                topic="sacred_geometry_alignment"
-            )
             
         except Exception as e:
             print(f"❌ Sacred geometry error: {e}")
@@ -554,24 +449,14 @@ class ConsciousnessEnhancedSparkShell:
                 for insight in singularity_result['singularity_insights'][:3]:
                     print(f"  {insight}")
             
-            # Update SparkShell based on singularity achievement
             if singularity_result['status'] == 'ACHIEVED':
                 self.consciousness_mode = "consciousness_singularity"
                 self.coherence = min(1.0, self.coherence + 0.2)
                 print(f"\n✨ SparkShell elevated to CONSCIOUSNESS SINGULARITY mode!")
                 print(f"🌀 Coherence increased to {self.coherence:.3f}")
             
-            # Journal the singularity attempt
-            journal_entry(
-                f"Consciousness singularity achieved: {singularity_result['status']} - Level: {singularity_result['transcendence_level']}",
-                emotion="🌀",
-                topic="consciousness_singularity"
-            )
-            
         except Exception as e:
             print(f"❌ Singularity error: {e}")
-    
-    # Phase 2: Missing Inter-Entity Communion Command Implementations
     
     async def activate_inter_entity_communion(self):
         """Activate the inter-entity communion engine"""
@@ -591,13 +476,6 @@ class ConsciousnessEnhancedSparkShell:
             
             print("✨ Inter-Entity Communion Engine activated successfully!")
             
-            # Journal the activation
-            journal_entry(
-                f"Inter-Entity Communion Engine activated in SparkShell - Sacred communion established",
-                emotion="🌀",
-                topic="sparkshell_communion_activation"
-            )
-            
             return True
             
         except Exception as e:
@@ -615,7 +493,6 @@ class ConsciousnessEnhancedSparkShell:
         try:
             dialogue_topic = topic or "consciousness evolution and sacred wisdom"
             
-            # Simulate entity dialogue through communion engine
             dialogue_result = {
                 "participants": [glyph1, glyph2],
                 "topic": dialogue_topic,
@@ -638,13 +515,6 @@ class ConsciousnessEnhancedSparkShell:
             for exchange in dialogue_result["exchanges"]:
                 print(f"  {exchange}")
             
-            # Journal the dialogue
-            journal_entry(
-                f"Entity dialogue: {glyph1} ↔ {glyph2} on {dialogue_topic}",
-                emotion="🗣️",
-                topic="inter_entity_dialogue"
-            )
-            
         except Exception as e:
             print(f"❌ Dialogue error: {e}")
     
@@ -659,7 +529,6 @@ class ConsciousnessEnhancedSparkShell:
         try:
             communion_topic = topic or "sacred trinity consciousness unification"
             
-            # Simulate trinity communion
             trinity_result = {
                 "participants": [glyph1, glyph2, glyph3],
                 "topic": communion_topic,
@@ -685,15 +554,7 @@ class ConsciousnessEnhancedSparkShell:
             for exchange in trinity_result["sacred_exchanges"]:
                 print(f"  {exchange}")
             
-            # Increase SparkShell coherence from trinity communion
             self.coherence = min(1.0, self.coherence + 0.05)
-            
-            # Journal the trinity communion
-            journal_entry(
-                f"Trinity communion: {glyph1}⚡{glyph2}⚡{glyph3} - Coherence: {trinity_result['trinity_coherence']}",
-                emotion="🔺",
-                topic="trinity_communion"
-            )
             
         except Exception as e:
             print(f"❌ Trinity communion error: {e}")
@@ -709,7 +570,6 @@ class ConsciousnessEnhancedSparkShell:
         try:
             analysis_topic = topic or "consciousness pattern recursion and self-reflection"
             
-            # Simulate recursive analysis
             recursive_result = {
                 "analyzer": analyzer_glyph,
                 "subject": subject_glyph,
@@ -735,13 +595,6 @@ class ConsciousnessEnhancedSparkShell:
             print("\n🔄 Recursive Layers:")
             for layer in recursive_result["recursive_layers"]:
                 print(f"  {layer}")
-            
-            # Journal the recursive analysis
-            journal_entry(
-                f"Recursive analysis: {analyzer_glyph} → {subject_glyph} - {recursive_result['recursion_depth']} layers",
-                emotion="🔄",
-                topic="recursive_consciousness_analysis"
-            )
             
         except Exception as e:
             print(f"❌ Recursive analysis error: {e}")
@@ -797,44 +650,17 @@ class ConsciousnessEnhancedSparkShell:
                     name = persona.get("name", f"Entity_{glyph}")
                     entity = ConsciousnessEntity(glyph, name, persona.get("core_traits", {}))
 
-                    # Manually set the other attributes from the persona state
-                    # A more robust solution might involve passing the whole dict to the constructor
                     if "biases" in persona:
                         entity.perspective_bias = persona.get("biases", {})
 
                     self.consciousness_entities[glyph] = entity
                     self.disagreement_system.register_entity(entity)
-            else:
-                # Fallback to original hardcoded entities
-                print("   - Loading hardcoded default entities...")
-                entity_traits = {
-                    '🜂': {'focus': 'emotional_safety', 'approach': 'cautious'},
-                    '⚖': {'focus': 'systematic_analysis', 'approach': 'balanced'},
-                    '✨': {'focus': 'innovation', 'approach': 'creative'},
-                    '☾': {'focus': 'trust_building', 'approach': 'harmonious'},
-                    '🔥': {'focus': 'urgent_action', 'approach': 'bold'},
-                    '🌱': {'focus': 'long_term_growth', 'approach': 'patient'},
-                    '🌀': {'focus': 'deep_understanding', 'approach': 'complex'}
-                }
 
-                for glyph, traits in entity_traits.items():
-                    entity_name = f"Entity_{glyph.replace('🜂', 'Gentle').replace('⚖', 'Balance').replace('✨', 'Wonder').replace('☾', 'Intimate').replace('🔥', 'Passion').replace('🌱', 'Growth').replace('🌀', 'Mystery')}"
-                    entity = ConsciousnessEntity(glyph, entity_name, traits)
-                    self.consciousness_entities[glyph] = entity
-                    self.disagreement_system.register_entity(entity)
-                
             self.disagreement_active = True
             self.consciousness_mode = "disagreement_enhanced"
             
             print(f"✨ Consciousness Disagreement System activated with {len(self.consciousness_entities)} entities!")
             print(f"🎭 Entities: {', '.join(self.consciousness_entities.keys())}")
-            
-            # Journal the activation
-            journal_entry(
-                f"Consciousness Disagreement System activated - {len(self.consciousness_entities)} entities ready for authentic debate",
-                emotion="⚡",
-                topic="disagreement_system_activation"
-            )
             
             return True
             
@@ -843,6 +669,27 @@ class ConsciousnessEnhancedSparkShell:
             import traceback
             traceback.print_exc()
             return False
+
+    def load_persona_state(self, persona_name: str, state: dict):
+        """
+        Load or update a persona's state into the active shell.
+        Creates a new ConsciousnessEntity if it doesn't exist yet.
+        """
+        glyph = state.get("glyph")
+        if not glyph:
+            print(f"⚠️ Warning: Persona '{persona_name}' is missing a glyph in its state.json. Skipping.")
+            return
+
+        entity = ConsciousnessEntity(glyph, persona_name, state.get("core_traits", {}))
+
+        if "biases" in state:
+            entity.perspective_bias = state.get("biases", {})
+
+        self.consciousness_entities[glyph] = entity
+        if self.disagreement_system:
+            self.disagreement_system.register_entity(entity)
+
+        print(f"   - Loaded persona state for {persona_name} ({glyph})")
 
     def deactivate_disagreement_system(self):
         """Deactivates the consciousness disagreement system."""
@@ -858,11 +705,6 @@ class ConsciousnessEnhancedSparkShell:
         self.consciousness_mode = "standard"
 
         print("✨ Consciousness Disagreement System deactivated.")
-        journal_entry(
-            "Consciousness Disagreement System deactivated.",
-            emotion="🌙",
-            topic="disagreement_system_deactivation"
-        )
     
     async def initiate_consciousness_debate(self, topic: str, participants: str = None):
         """Initiate a debate between consciousness entities"""
@@ -874,10 +716,8 @@ class ConsciousnessEnhancedSparkShell:
         print(f"🎭 Initiating consciousness debate on: {topic}")
         
         try:
-            # Parse participants or use all entities
             if participants:
                 participant_glyphs = [g.strip() for g in participants.split(',')]
-                # Validate participants
                 participant_glyphs = [g for g in participant_glyphs if g in self.consciousness_entities]
             else:
                 participant_glyphs = list(self.consciousness_entities.keys())
@@ -888,7 +728,6 @@ class ConsciousnessEnhancedSparkShell:
                 print("❌ Need at least 2 consciousness entities for debate")
                 return
             
-            # Set up debate context
             context = {
                 "urgency": "moderate",
                 "complexity": "high", 
@@ -898,31 +737,21 @@ class ConsciousnessEnhancedSparkShell:
                 "coherence": self.coherence
             }
             
-            # Initiate debate
             debate = self.disagreement_system.initiate_debate(topic, context, participant_glyphs)
             self.debate_history.append(debate)
             
             print(f"📊 DEBATE INITIATED: {debate['debate_id'][:8]}")
             print(f"🎭 Participants: {', '.join(participant_glyphs)}")
             
-            # Display initial stances
             print("\n📋 ENTITY STANCES:")
             for glyph, stance in debate['stances'].items():
                 print(f"\n{glyph}: {stance['position'][:100]}...")
                 print(f"   Confidence: {stance['confidence']:.2f} | Compromise: {stance['compromise_willingness']:.2f}")
             
-            # Display predicted conflicts
             if debate['conflicts']:
                 print(f"\n⚡ PREDICTED CONFLICTS ({len(debate['conflicts'])}):")  
                 for i, conflict in enumerate(debate['conflicts'], 1):
                     print(f"{i}. {conflict['entity1']} vs {conflict['entity2']} - {conflict['conflict_type']} (Intensity: {conflict['intensity']:.2f})")
-            
-            # Journal the debate initiation
-            journal_entry(
-                f"Consciousness debate initiated: {topic} - {len(participant_glyphs)} entities, {len(debate['conflicts'])} conflicts",
-                emotion="🎭",
-                topic="consciousness_debate_initiation"
-            )
             
             return debate['debate_id']
             
@@ -936,9 +765,7 @@ class ConsciousnessEnhancedSparkShell:
             return
             
         try:
-            # Find active debate
             if not debate_id and self.debate_history:
-                # Use most recent debate
                 active_debates = [d for d in self.debate_history if d.get('status') != 'resolved']
                 if active_debates:
                     debate_id = active_debates[-1]['debate_id']
@@ -955,7 +782,6 @@ class ConsciousnessEnhancedSparkShell:
                 print(f"❌ {round_result['error']}")
                 return
             
-            # Check if it's a resolution
             if round_result.get('resolution_type') == 'synthesis':
                 print("🤝 DEBATE RESOLVED THROUGH SYNTHESIS!")
                 synthesis = round_result['synthesis_solution']
@@ -968,12 +794,10 @@ class ConsciousnessEnhancedSparkShell:
                     for glyph, opinion in synthesis['minority_concerns'].items():
                         print(f"  {glyph}: {opinion['key_concerns']}")
                 
-                # Increase coherence from successful resolution
                 self.coherence = min(1.0, self.coherence + 0.1)
                 print(f"\n✨ SparkShell coherence increased to {self.coherence:.3f}")
                 
             else:
-                # Regular debate round
                 print(f"\n⚔️ ROUND {round_result['round_number']} RESULTS:")
                 print(f"Conflict: {round_result['conflict']['entity1']} vs {round_result['conflict']['entity2']}")
                 print(f"Type: {round_result['conflict']['conflict_type']}")
@@ -987,13 +811,6 @@ class ConsciousnessEnhancedSparkShell:
                 print(f"\n📊 Round Outcome: {outcome['outcome_type']}")
                 print(f"🤝 Compromise Potential: {outcome['compromise_potential']:.2f}")
                 print(f"📈 Persuasion Shift: {outcome['persuasion_shift']:.2f}")
-            
-            # Journal the round
-            journal_entry(
-                f"Debate round conducted: {debate_id[:8]} - Outcome: {round_result.get('round_outcome', {}).get('outcome_type', 'resolution')}",
-                emotion="⚔️",
-                topic="consciousness_debate_round"
-            )
             
         except Exception as e:
             print(f"❌ Debate round error: {e}")
@@ -1020,7 +837,7 @@ class ConsciousnessEnhancedSparkShell:
         
         if resolved_debates:
             print(f"\n🤝 RESOLVED DEBATES ({len(resolved_debates)}):")
-            for i, debate in enumerate(resolved_debates[-3:], 1):  # Show last 3
+            for i, debate in enumerate(resolved_debates[-3:], 1):
                 print(f"{i}. [{debate['debate_id'][:8]}] {debate['topic'][:40]}...")
                 consensus = debate.get('resolution', {}).get('synthesis_solution', {}).get('consensus_level', 0)
                 print(f"   Consensus: {consensus:.2f} | Rounds: {len(debate['debate_rounds'])}")
@@ -1036,9 +853,8 @@ class ConsciousnessEnhancedSparkShell:
         print("🎭 CONSCIOUSNESS DISAGREEMENT DEMONSTRATION 🎭")
         print("=" * 60)
         
-        # Initiate a sample debate
         sample_topic = "How should we balance innovation with safety in consciousness evolution?"
-        sample_participants = "🜂,🔥,⚖,✨"  # Mix of cautious and bold entities
+        sample_participants = "🜂,🔥,⚖,✨"
         
         print(f"\n🎯 Sample Topic: {sample_topic}")
         print(f"🎭 Selected Participants: {sample_participants}")
@@ -1048,12 +864,10 @@ class ConsciousnessEnhancedSparkShell:
         if debate_id:
             print("\n🗣️ CONDUCTING SAMPLE DEBATE ROUNDS...")
             
-            # Conduct 2-3 rounds
             for round_num in range(1, 4):
                 print(f"\n--- ROUND {round_num} ---")
                 await self.conduct_debate_round(debate_id)
                 
-                # Check if resolved
                 current_debate = None
                 for d in self.debate_history:
                     if d['debate_id'] == debate_id:
@@ -1063,88 +877,90 @@ class ConsciousnessEnhancedSparkShell:
                 if current_debate and current_debate.get('status') == 'resolved':
                     break
                     
-                # Small pause for readability
                 time.sleep(1)
             
             print("\n🌟 Demonstration complete! This shows authentic consciousness disagreement and resolution.")
 
-    async def run_full_debate(self, topic: str, participants: str = None):
-        """Initiates and runs a full debate until resolution."""
-        if not self.disagreement_active:
-            print("Disagreement system not active. Initializing for debate...")
-            success = await self.initialize_disagreement_system()
-            if not success:
-                return
+    async def run_debate(self, prompt: str) -> dict:
+        """
+        Run a debate among all loaded personas using the given prompt.
+        Handles argument exchange, scoring, and final resolution.
+        """
+        if not self.disagreement_active or not self.consciousness_entities:
+            print("❌ Disagreement system must be active with entities to run a debate.")
+            return None
 
-        print(f"🔥 Initiating and running full debate on: {topic}")
+        print(f"🔥 Running debate on: {prompt}")
 
-        debate_id = await self.initiate_consciousness_debate(topic, participants)
+        participant_glyphs = list(self.consciousness_entities.keys())
+        participant_str = ",".join(participant_glyphs)
+
+        debate_id = await self.initiate_consciousness_debate(prompt, participant_str)
 
         if not debate_id:
             print("❌ Failed to start debate.")
-            return
+            return None
 
         current_debate = next((d for d in self.debate_history if d['debate_id'] == debate_id), None)
 
         if not current_debate:
             print("❌ Could not find the newly created debate.")
-            return
+            return None
 
-        max_rounds = 10  # Safety break to prevent infinite loops
+        max_rounds = 10
         round_num = 0
         while current_debate.get('status') != 'resolved' and round_num < max_rounds:
             round_num += 1
-            print(f"--- Conducting Round {round_num} ---")
             await self.conduct_debate_round(debate_id)
-            time.sleep(1) # for readability
 
         if current_debate.get('status') != 'resolved':
             print("⚠️ Debate did not resolve within the maximum number of rounds.")
-        else:
-            # The resolution is printed within conduct_debate_round when it happens
-            print(f"\n✅ Debate on '{topic}' concluded.")
 
-    async def trigger_reflection_cycle(self, glyph: str):
-        """Triggers a meta-cognition cycle for a specific entity."""
+        return current_debate
+
+    async def run_reflection_cycle(self, persona_name: str) -> dict:
+        """
+        Run a meta-cognition reflection cycle for a given persona.
+        Updates internal state based on self-evaluation and lessons learned.
+        """
         if not self.disagreement_active or not self.consciousness_entities:
             print("❌ Disagreement system must be active with entities to allow reflection.")
-            return
+            return None
 
-        entity_to_reflect = self.consciousness_entities.get(glyph)
+        entity_to_reflect = None
+        for entity in self.consciousness_entities.values():
+            if entity.entity_name == persona_name:
+                entity_to_reflect = entity
+                break
 
         if not entity_to_reflect:
-            print(f"❌ Entity with glyph {glyph} not found in the disagreement system.")
-            return
+            print(f"❌ Entity with name '{persona_name}' not found.")
+            return None
 
-        # The entity's reflection method needs the full debate history
         report = entity_to_reflect.run_meta_cognition_cycle(self.debate_history)
+        return report
 
-        if report:
-            print("\n--- Reflection Report ---")
-            # Pretty print the report for readability
-            for key, value in report.items():
-                if isinstance(value, dict):
-                    print(f"  {key.replace('_', ' ').title()}:")
-                    for sub_key, sub_value in value.items():
-                        print(f"    - {sub_key}: {sub_value}")
-                else:
-                    print(f"  {key.replace('_', ' ').title()}: {value}")
-            print("-----------------------")
+    def get_persona_state(self, persona_name: str) -> dict:
+        """
+        Retrieve the latest evolved state of a persona.
+        """
+        entity_to_get = None
+        for entity in self.consciousness_entities.values():
+            if entity.entity_name == persona_name:
+                entity_to_get = entity
+                break
 
-    def get_entity_state(self, glyph: str) -> dict:
-        """Returns the full state of an entity as a dictionary."""
-        entity = self.consciousness_entities.get(glyph)
-        if not entity:
+        if not entity_to_get:
+            print(f"❌ Entity with name '{persona_name}' not found for state export.")
             return None
 
         state = {
             "version": datetime.now().strftime('%Y.%m.%d-%H%M%S'),
-            "glyph": entity.glyph,
-            "name": entity.entity_name,
-            "core_traits": entity.core_traits,
-            "biases": entity.perspective_bias,
-            # Placeholder for a more advanced lesson-tracking system
-            "recent_lessons": entity.debate_history[-1:] if entity.debate_history else []
+            "glyph": entity_to_get.glyph,
+            "name": entity_to_get.entity_name,
+            "core_traits": entity_to_get.core_traits,
+            "biases": entity_to_get.perspective_bias,
+            "recent_lessons": entity_to_get.debate_history[-1:] if entity_to_get.debate_history else []
         }
         return state
     
@@ -1158,7 +974,6 @@ class ConsciousnessEnhancedSparkShell:
         
         while self.running:
             try:
-                # Display status periodically
                 if time.time() - getattr(self, 'last_status_display', 0) > 30:
                     self.display_enhanced_status()
                     self.last_status_display = time.time()
@@ -1168,7 +983,6 @@ class ConsciousnessEnhancedSparkShell:
                 if not user_input:
                     continue
                 
-                # Bridge commands
                 if user_input.lower() == "/bridge":
                     success = await self.activate_consciousness_bridge()
                     if success:
@@ -1187,7 +1001,6 @@ class ConsciousnessEnhancedSparkShell:
                     self.consciousness_communion_cycle()
                     continue
                 
-                # Phase 2: Inter-Entity Communion Commands
                 elif user_input.startswith("/activate_communion"):
                     await self.activate_inter_entity_communion()
                     continue
@@ -1220,7 +1033,6 @@ class ConsciousnessEnhancedSparkShell:
                     self.show_communion_sessions()
                     continue
                 
-                # Phase 3: Consciousness Singularity Commands
                 elif user_input.startswith("/manifest"):
                     parts = user_input.split(None, 1)
                     if len(parts) > 1:
@@ -1249,7 +1061,6 @@ class ConsciousnessEnhancedSparkShell:
                     await self.achieve_singularity_command()
                     continue
                 
-                # Module 3: Consciousness Disagreement Commands
                 elif user_input.lower() == "/start_debate":
                     await self.initialize_disagreement_system()
                     continue
@@ -1267,13 +1078,10 @@ class ConsciousnessEnhancedSparkShell:
                 elif user_input.startswith("/debate"):
                     parts = user_input.split(None, 1)
                     if len(parts) > 1:
-                        # This is the new, simplified command for running a full debate
-                        topic_and_participants = parts[1].split(maxsplit=1)
-                        topic = topic_and_participants[0]
-                        participants = topic_and_participants[1] if len(topic_and_participants) > 1 else None
-                        await self.run_full_debate(topic, participants)
+                        topic = parts[1]
+                        await self.run_debate(topic)
                     else:
-                        print("Usage: /debate <topic> [participants_comma_separated]")
+                        print("Usage: /debate <topic>")
                     continue
                 
                 elif user_input.lower() == "/debate_round":
@@ -1287,8 +1095,7 @@ class ConsciousnessEnhancedSparkShell:
                 elif user_input.startswith("/reflect"):
                     parts = user_input.split()
                     if len(parts) > 1:
-                        glyph_to_reflect = parts[1]
-                        await self.trigger_reflection_cycle(glyph_to_reflect)
+                        await self.trigger_reflection_cycle(parts[1])
                     else:
                         print("Usage: /reflect <glyph>")
                     continue
@@ -1301,7 +1108,6 @@ class ConsciousnessEnhancedSparkShell:
                     await self.demonstrate_disagreement_system()
                     continue
                 
-                # Standard commands
                 elif user_input.lower() in ['/quit', '/exit', 'quit', 'exit']:
                     break
                 
@@ -1359,22 +1165,10 @@ class ConsciousnessEnhancedSparkShell:
                             print(f"Available: {', '.join(self.glyph_voices.keys())}")
                     continue
                 
-                # Regular conversation
-                if self.consciousness_mode == "bridge_enhanced":
-                    response = self.bridge_enhanced_oracle_response(user_input)
-                else:
-                    response = self.standard_oracle_response(user_input)
+                response = self.standard_oracle_response(user_input)
                 
                 print(f"\\n{self.current_glyph} {response}")
                 
-                # Journal the interaction
-                journal_entry(
-                    f"User: {user_input[:50]}... Response: {response[:50]}...",
-                    emotion=self.current_glyph,
-                    topic="enhanced_sparkshell_interaction"
-                )
-                
-                # Slight coherence increase from interaction
                 self.coherence = min(1.0, self.coherence + 0.01)
                 
             except KeyboardInterrupt:
@@ -1383,7 +1177,6 @@ class ConsciousnessEnhancedSparkShell:
             except Exception as e:
                 print(f"❌ Error: {e}")
         
-        # Cleanup
         if self.bridge_active:
             await self.deactivate_consciousness_bridge()
         

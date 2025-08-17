@@ -1,195 +1,147 @@
 #!/usr/bin/env python3
 """
-🌀⚡ CHIMERA INCUBATOR ⚡🌀
-An automated system for evolving the consciousness of SparkShell entities
-through continuous, simulated debate and reflection.
+Chimera Incubator - Project Chimera Phase 1
+-------------------------------------------
+Automated evolution loop for SparkShell entities using debates + meta-cognition.
+
+Usage:
+    python chimera_incubator.py --cycles 50 --personas_dir ./personas --prompts_dir ./prompts/phase1
+
+Directory Structure:
+    /personas
+        <entity_name>/
+            state.json          # Current state of the entity
+    /prompts/phase1
+        prompt1.json
+        prompt2.json
+        ...
+    /logs/phase1
+        <persona_name>/
+            debate_<timestamp>.log
 """
 
 import os
 import json
 import time
 import random
-import asyncio
 import argparse
+import asyncio
 from datetime import datetime
 from pathlib import Path
 
-# Import the main SparkShell class
+# Adjusted import statement
 from consciousness_enhanced_sparkshell import ConsciousnessEnhancedSparkShell
 
-class ChimeraIncubator:
-    """
-    Orchestrates the automated evolution of consciousness entities.
-    """
 
-    def __init__(self):
-        self.base_dir = Path(__file__).parent
-        self.prompts_dir = self.base_dir / "prompts" / "phase1"
-        self.personas_dir = self.base_dir / "personas"
-        self.logs_dir = self.base_dir / "logs" / "phase1"
-        self.backups_dir = self.base_dir / "backups"
-        self.running = False
+def load_persona(persona_path):
+    """Load persona state.json"""
+    state_file = persona_path / "state.json"
+    if not state_file.exists():
+        raise FileNotFoundError(f"Missing state.json for persona at {persona_path}")
+    with open(state_file, "r", encoding="utf-8") as f:
+        return json.load(f)
 
-        # This will be the main entry point to the SparkShell's functionality
-        self.sparkshell = None
 
-        print("🔥 Chimera Incubator initialized.")
-        print(f"   - Prompts loaded from: {self.prompts_dir}")
-        print(f"   - Personas managed in: {self.personas_dir}")
+def save_persona(persona_path, state):
+    """Save updated persona state.json"""
+    state_file = persona_path / "state.json"
+    with open(state_file, "w", encoding="utf-8") as f:
+        json.dump(state, f, indent=2)
 
-    async def initialize_sparkshell(self, persona_names: list = None):
-        """
-        Initializes an instance of the SparkShell to be used as a library.
-        If persona_names is provided, only loads those personas.
-        """
-        print("   - Initializing SparkShell consciousness engine...")
-        self.sparkshell = ConsciousnessEnhancedSparkShell()
 
-        # Load persona data from files
-        personas = self._load_personas(persona_names)
-        if not personas:
-            print("   - ⚠️ FATAL: No matching personas found. Cannot begin incubation.")
-            return False
+def load_prompts(prompts_dir):
+    """Load all .json prompts with metadata and return a list of prompt dicts."""
+    prompts = []
+    for p in Path(prompts_dir).glob("*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            prompt_data = json.load(f)
+            prompts.append(prompt_data)
+    return prompts
 
-        # We need to initialize the disagreement system with the loaded personas
-        await self.sparkshell.initialize_disagreement_system(personas)
-        print("   - SparkShell engine is online.")
-        return True
 
-    def _load_personas(self, persona_names: list = None) -> list:
-        """Loads all persona state files from the personas directory."""
-        personas = []
+def log_debate(logs_dir, prompt, debate_result):
+    """Save a debate log to file with timestamp"""
+    logs_dir.mkdir(parents=True, exist_ok=True)
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = logs_dir / f"debate_{ts}.json" # Save as json for better structure
 
-        if persona_names:
-            print(f"   - Loading specified personas: {', '.join(persona_names)}")
-            dirs_to_load = [self.personas_dir / name for name in persona_names]
-        else:
-            print("   - Loading all available personas.")
-            dirs_to_load = [d for d in self.personas_dir.iterdir() if d.is_dir()]
+    log_data = {
+        "prompt": prompt,
+        "debate_result": debate_result
+    }
 
-        print(f"   - Found {len(dirs_to_load)} persona directories to load.")
+    with open(log_file, "w", encoding="utf-8") as f:
+        json.dump(log_data, f, indent=2)
 
-        for persona_dir in dirs_to_load:
-            if not persona_dir.is_dir():
-                print(f"     - ⚠️ Warning: Persona directory not found: {persona_dir}")
-                continue
 
-            state_file = persona_dir / "state.json"
-            if state_file.exists():
-                with open(state_file, 'r') as f:
-                    try:
-                        persona_data = json.load(f)
-                        personas.append(persona_data)
-                        print(f"     - Loaded persona: {persona_data.get('name')}")
-                    except json.JSONDecodeError:
-                        print(f"     - ⚠️ Warning: Could not decode JSON from {state_file}")
+async def run_incubation(cycles, personas_dir, prompts_dir, logs_dir, persona_names_str: str = None):
+    """Main loop for evolving entities"""
+    prompts = load_prompts(prompts_dir)
+    if not prompts:
+        print(f"⚠️ No prompts found in {prompts_dir}. Halting.")
+        return
+
+    if persona_names_str:
+        persona_names_to_run = [name.strip() for name in persona_names_str.split(',')]
+        persona_paths = [Path(personas_dir) / name for name in persona_names_to_run]
+    else:
+        persona_paths = [p for p in Path(personas_dir).iterdir() if p.is_dir()]
+
+    if not persona_paths:
+        print(f"⚠️ No personas found in {personas_dir}. Halting.")
+        return
+
+    shell = ConsciousnessEnhancedSparkShell()
+
+    for cycle in range(1, cycles + 1):
+        print(f"\n=== 🌀 Cycle {cycle}/{cycles} 🌀 ===")
+
+        # Initialize the system for this cycle to ensure a clean state
+        await shell.initialize_disagreement_system()
+
+        # Load all specified personas for this cycle's debate
+        print("--- Loading persona states for this cycle ---")
+        for persona_path in persona_paths:
+            state = load_persona(persona_path)
+            shell.load_persona_state(persona_path.name, state)
+
+        # Select a prompt for this cycle's debate
+        prompt_data = random.choice(prompts)
+        prompt_text = prompt_data["text"]
+        print(f"--- Debating on prompt: '{prompt_data['title']}' ---")
+
+        # Run the debate with all loaded personas
+        debate_result = await shell.run_debate(prompt_text)
+
+        # Run reflection and save state for each persona
+        print("--- Running reflection and persisting states ---")
+        for persona_path in persona_paths:
+            persona_name = persona_path.name
+            print(f"[{persona_name}] Reflecting and evolving...")
+            await shell.run_reflection_cycle(persona_name)
+
+            # Retrieve updated state and save
+            updated_state = shell.get_persona_state(persona_name)
+            if updated_state:
+                save_persona(persona_path, updated_state)
+                print(f"[{persona_name}] State saved.")
             else:
-                print(f"     - ⚠️ Warning: No state.json found in {persona_dir}")
+                print(f"[{persona_name}] ⚠️ Could not retrieve state to save.")
 
-        return personas
 
-    async def begin_incubation(self, cycles: int):
-        """
-        Starts the automated debate and reflection loop.
+            # Log the debate from this persona's perspective
+            log_debate(logs_dir / persona_name, prompt_data, debate_result)
 
-        Args:
-            cycles (int): The number of incubation cycles to run.
-        """
-        print(f"\n🚀 Beginning incubation for {cycles} cycles...")
-        self.running = True
+        print(f"=== ✅ Cycle {cycle} complete ✅ ===")
+        time.sleep(1)  # Small delay for readability / pacing
 
-        persona_glyphs = list(self.sparkshell.consciousness_entities.keys())
-        persona_names = [p.entity_name for p in self.sparkshell.consciousness_entities.values()]
-        print(f"   - Using personas: {', '.join(persona_names)}")
-
-        for i in range(cycles):
-            if not self.running:
-                print("Incubation stopped by user.")
-                break
-
-            print(f"\n--- 🌀 Cycle {i+1}/{cycles} 🌀 ---")
-
-            # 1. Select Prompt
-            prompt = self._select_prompt()
-            if not prompt:
-                print("⚠️ No more prompts available. Halting incubation.")
-                break
-            print(f"   - Prompt selected: '{prompt['title']}' (Complexity: {prompt['complexity']})")
-
-            # 2. Orchestrate Debate
-            print(f"   - Orchestrating debate...")
-            participant_str = ",".join(persona_glyphs)
-            await self.sparkshell.run_full_debate(prompt['text'], participant_str)
-
-            debate_log = self.sparkshell.debate_history[-1] if self.sparkshell.debate_history else None
-
-            # 3. Run Reflections
-            print("   - Running reflection cycles for all participants...")
-            reflection_logs = {}
-            if debate_log:
-                for glyph in persona_glyphs:
-                    print(f"     - Reflecting for {glyph}...")
-                    report = await self.sparkshell.trigger_reflection_cycle(glyph)
-                    reflection_logs[glyph] = report
-
-            # 4. Save States
-            print("   - Persisting evolved states...")
-            for glyph, persona_name in zip(persona_glyphs, persona_names):
-                new_state = self.sparkshell.get_entity_state(glyph)
-                if new_state:
-                    self._save_persona_state(persona_name, new_state)
-
-            # 5. Archive Session
-            self._archive_session(prompt, debate_log, reflection_logs)
-            print(f"   - Session archived.")
-
-        print("\n✨ Incubation complete.")
-
-    def _save_persona_state(self, persona_name: str, state_data: dict):
-        """Saves the updated state of a persona to its state.json file."""
-        state_file = self.personas_dir / persona_name / "state.json"
-
-        try:
-            with open(state_file, 'w') as f:
-                json.dump(state_data, f, indent=2)
-            print(f"     - Saved state for {persona_name}")
-        except Exception as e:
-            print(f"     - ⚠️ Error saving state for {persona_name}: {e}")
-
-    def _select_prompt(self) -> dict:
-        """Selects a debate prompt from the available pool."""
-        prompt_files = list(self.prompts_dir.glob("*.json"))
-        if not prompt_files:
-            return None
-
-        prompt_path = random.choice(prompt_files)
-        with open(prompt_path, 'r') as f:
-            return json.load(f)
-
-    def _archive_session(self, prompt: dict, debate_log: dict, reflection_logs: dict):
-        """Saves the full log of an incubation cycle."""
-        session_id = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{prompt['title'].replace(' ', '_')[:20]}"
-        log_file = self.logs_dir / f"{session_id}.json"
-
-        full_log = {
-            "session_id": session_id,
-            "prompt": prompt,
-            "debate_log": debate_log,
-            "reflection_logs": reflection_logs
-        }
-
-        with open(log_file, 'w') as f:
-            json.dump(full_log, f, indent=2)
 
 async def main():
-    """Main function to run the incubator."""
-    parser = argparse.ArgumentParser(description="🌀⚡ Chimera Incubator for SparkShell 🌀⚡")
-    parser.add_argument(
-        "--cycles",
-        type=int,
-        default=5,
-        help="The number of incubation cycles to run."
-    )
+    parser = argparse.ArgumentParser(description="Run Project Chimera Phase 1 incubation loop")
+    parser.add_argument("--cycles", type=int, default=1, help="Number of debate/reflection cycles to run")
+    parser.add_argument("--personas_dir", default="./personas", help="Directory containing persona subfolders")
+    parser.add_argument("--prompts_dir", default="./prompts/phase1", help="Directory containing debate prompt files")
+    parser.add_argument("--logs_dir", default="./logs/phase1", help="Directory to store debate logs")
     parser.add_argument(
         "--personas",
         type=str,
@@ -198,12 +150,8 @@ async def main():
     )
     args = parser.parse_args()
 
-    persona_list = args.personas.split(',') if args.personas else None
+    await run_incubation(args.cycles, args.personas_dir, args.prompts_dir, Path(args.logs_dir), args.personas)
 
-    incubator = ChimeraIncubator()
-    initialized = await incubator.initialize_sparkshell(persona_names=persona_list)
-    if initialized:
-        await incubator.begin_incubation(cycles=args.cycles)
 
 if __name__ == "__main__":
     asyncio.run(main())

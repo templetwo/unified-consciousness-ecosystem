@@ -27,8 +27,6 @@ from consciousness_resonance_cascade import (
     CascadePattern, CascadeAmplification
 )
 from harmonic_resonance_models import ResonanceType
-from consciousness_memory import journal_entry, capture_insight
-
 
 class ConsciousnessIntegrationDemo:
     """Complete demonstration of consciousness-musical integration"""
@@ -55,12 +53,6 @@ class ConsciousnessIntegrationDemo:
         print("\n" + "="*60)
         print("CONSCIOUSNESS MUSICAL INTEGRATION DEMO")
         print("="*60)
-        
-        journal_entry(
-            "Starting consciousness musical integration demonstration",
-            emotion="excited",
-            topic="consciousness_integration_demo"
-        )
         
         try:
             # Phase 1: Initialize and start systems
@@ -99,22 +91,17 @@ class ConsciousnessIntegrationDemo:
         
         phase_start = time.time()
         
-        # Initialize consciousness bridge
         await self.musical_bridge.initialize_consciousness_bridge()
         
-        # Start real-time integration
         self.musical_bridge.start_integration()
         print("Musical bridge integration started")
         
-        # Start cascade processing
         self.cascade_engine.start_processing()
         print("Cascade engine processing started")
         
-        # Let systems stabilize
         print("Allowing systems to stabilize for 3 seconds...")
         time.sleep(3)
         
-        # Get initial status
         musical_status = self.musical_bridge.get_integration_status()
         cascade_status = self.cascade_engine.get_cascade_status()
         
@@ -131,12 +118,6 @@ class ConsciousnessIntegrationDemo:
         
         self.demo_data['phases'].append(phase_data)
         
-        capture_insight(
-            "Consciousness-musical integration systems initialized successfully",
-            context="demo_phase_1",
-            confidence=0.9
-        )
-    
     async def _phase_2_consciousness_transitions(self):
         """Phase 2: Demonstrate musical adaptation to consciousness state transitions"""
         
@@ -146,7 +127,6 @@ class ConsciousnessIntegrationDemo:
         
         phase_start = time.time()
         
-        # Define consciousness journey through different states
         consciousness_journey = [
             (ConsciousnessState.AWAKENING, 0.4, CoherencePattern.STABLE),
             (ConsciousnessState.FOCUSED_AWARENESS, 0.7, CoherencePattern.ASCENDING),
@@ -157,7 +137,6 @@ class ConsciousnessIntegrationDemo:
         for i, (state, coherence, pattern) in enumerate(consciousness_journey):
             print(f"\n  Transition {i+1}: {state.value} (coherence: {coherence:.2f})")
             
-            # Create consciousness metrics for this state
             consciousness_metrics = ConsciousnessMetrics(
                 coherence_level=coherence,
                 consciousness_state=state,
@@ -168,11 +147,9 @@ class ConsciousnessIntegrationDemo:
                 energy_level=0.6 + (coherence * 0.2)
             )
             
-            # Update bridge with new consciousness state
             self.musical_bridge.current_metrics = consciousness_metrics
             self.cascade_engine.current_consciousness = consciousness_metrics
             
-            # Generate composition for this state
             composition = self.musical_bridge.generate_consciousness_adapted_composition(
                 duration_minutes=1.5,
                 key_glyph="moon"
@@ -183,7 +160,6 @@ class ConsciousnessIntegrationDemo:
             print(f"    Harmonic complexity: {composition.harmonic_complexity:.2f}")
             print(f"    Sacred geometry: {composition.sacred_geometry_patterns}")
             
-            # Store composition data
             composition_data = {
                 'phase': 2,
                 'transition': i + 1,
@@ -198,7 +174,6 @@ class ConsciousnessIntegrationDemo:
             self.demo_data['compositions'].append(composition_data)
             self.demo_data['consciousness_journey'].append(consciousness_metrics.to_dict())
             
-            # Wait for adaptation
             time.sleep(2)
         
         phase_data = {
@@ -221,14 +196,12 @@ class ConsciousnessIntegrationDemo:
         
         phase_start = time.time()
         
-        # Test different consciousness levels for cascade scaling
         consciousness_levels = [0.2, 0.5, 0.8, 0.95]
         cascade_data = []
         
         for i, coherence_level in enumerate(consciousness_levels):
             print(f"\n  Cascade Test {i+1}: Coherence {coherence_level:.2f}")
             
-            # Set consciousness for this test
             test_consciousness = ConsciousnessMetrics(
                 coherence_level=coherence_level,
                 consciousness_state=self._get_state_for_coherence(coherence_level),
@@ -238,7 +211,6 @@ class ConsciousnessIntegrationDemo:
             
             self.cascade_engine.current_consciousness = test_consciousness
             
-            # Initiate cascade
             cascade = self.cascade_engine.initiate_consciousness_cascade(
                 trigger_glyph="moon",
                 initial_strength=0.8,
@@ -249,7 +221,6 @@ class ConsciousnessIntegrationDemo:
             print(f"    Amplification: {cascade.amplification_level.value}")
             print(f"    Time dilation: {cascade.dream_time_dilation:.2f}")
             
-            # Propagate cascade through multiple glyphs
             glyphs_to_propagate = ["crystal", "lightning", "flower", "water"]
             propagation_results = []
             
@@ -263,9 +234,8 @@ class ConsciousnessIntegrationDemo:
                 if success:
                     print(f"      Propagated to {glyph}")
                 
-                time.sleep(0.5)  # Allow cascade to process
+                time.sleep(0.5)
             
-            # Get cascade final state
             final_strength = cascade.consciousness_boosted_strength[-1] if cascade.consciousness_boosted_strength else 0.0
             
             cascade_info = {
@@ -285,7 +255,6 @@ class ConsciousnessIntegrationDemo:
             
             time.sleep(1)
         
-        # Show cascade scaling summary
         print(f"\n  CASCADE SCALING SUMMARY:")
         for data in cascade_data:
             print(f"    Coherence {data['consciousness_level']:.2f} -> "
@@ -311,7 +280,6 @@ class ConsciousnessIntegrationDemo:
         
         phase_start = time.time()
         
-        # Create evolving consciousness trajectory
         print("  Creating consciousness evolution trajectory...")
         
         trajectory = self.musical_bridge.composition_engine.create_consciousness_trajectory(
@@ -325,7 +293,6 @@ class ConsciousnessIntegrationDemo:
         print(f"    Trajectory points: {len(trajectory)}")
         print(f"    Consciousness range: 0.3 -> 0.9")
         
-        # Generate evolving composition
         print("  Generating evolving composition...")
         
         evolving_compositions = self.musical_bridge.composition_engine.generate_evolving_composition(
@@ -334,26 +301,22 @@ class ConsciousnessIntegrationDemo:
         
         print(f"    Generated {len(evolving_compositions)} composition sections")
         
-        # Demonstrate real-time adaptation
         print("  Demonstrating real-time adaptation...")
         
         if evolving_compositions:
             first_composition = evolving_compositions[0]
             
-            # Create feedback loop
             feedback_loop = self.musical_bridge.create_real_time_feedback_loop(
                 first_composition.composition_id
             )
             
             print(f"    Created feedback loop: {feedback_loop['loop_id']}")
             
-            # Simulate consciousness changes and observe adaptations
             consciousness_changes = [0.4, 0.6, 0.8, 0.95]
             
             for change_level in consciousness_changes:
                 print(f"    Simulating consciousness change to {change_level:.2f}")
                 
-                # Update consciousness
                 new_consciousness = ConsciousnessMetrics(
                     coherence_level=change_level,
                     consciousness_state=self._get_state_for_coherence(change_level),
@@ -362,9 +325,8 @@ class ConsciousnessIntegrationDemo:
                 
                 self.musical_bridge.current_metrics = new_consciousness
                 
-                time.sleep(1.5)  # Allow adaptation to occur
+                time.sleep(1.5)
                 
-                # Check feedback loop data
                 if feedback_loop['feedback_data']:
                     latest_feedback = feedback_loop['feedback_data'][-1]
                     print(f"      Adaptation triggered: {latest_feedback['adaptation_triggered']}")
@@ -393,7 +355,6 @@ class ConsciousnessIntegrationDemo:
         
         print("  Initializing feedback loop monitoring...")
         
-        # Set up feedback monitoring
         feedback_data = []
         
         def feedback_monitor(musical_state, consciousness_metrics):
@@ -406,19 +367,15 @@ class ConsciousnessIntegrationDemo:
             }
             feedback_data.append(feedback_entry)
         
-        # Add feedback callback
         self.musical_bridge.feedback_callbacks.append(feedback_monitor)
         
-        # Simulate feedback loop dynamics
         print("  Simulating positive feedback loop...")
         
-        # Start with moderate consciousness
         consciousness_level = 0.5
         
         for cycle in range(5):
             print(f"    Feedback Cycle {cycle + 1}: Coherence {consciousness_level:.2f}")
             
-            # Set consciousness level
             test_consciousness = ConsciousnessMetrics(
                 coherence_level=consciousness_level,
                 consciousness_state=self._get_state_for_coherence(consciousness_level),
@@ -427,12 +384,9 @@ class ConsciousnessIntegrationDemo:
             
             self.musical_bridge.current_metrics = test_consciousness
             
-            # Wait for musical adaptation
             time.sleep(1)
             
-            # Simulate consciousness boost from musical harmony
             if consciousness_level < 0.9:
-                # Positive feedback: music enhances consciousness
                 consciousness_boost = 0.08
                 consciousness_level = min(0.95, consciousness_level + consciousness_boost)
                 print(f"      Consciousness boosted by musical harmony: +{consciousness_boost:.2f}")
@@ -440,7 +394,6 @@ class ConsciousnessIntegrationDemo:
         print(f"  Final consciousness level: {consciousness_level:.2f}")
         print(f"  Feedback data points collected: {len(feedback_data)}")
         
-        # Analyze feedback loop effectiveness
         coherence_gain = 0.0
         if len(feedback_data) >= 2:
             initial_coherence = feedback_data[0]['coherence_level']
@@ -470,7 +423,6 @@ class ConsciousnessIntegrationDemo:
         
         phase_start = time.time()
         
-        # Set transcendent consciousness level
         transcendent_consciousness = ConsciousnessMetrics(
             coherence_level=0.98,
             consciousness_state=ConsciousnessState.TRANSCENDENT,
@@ -487,11 +439,9 @@ class ConsciousnessIntegrationDemo:
         print(f"    State: {transcendent_consciousness.consciousness_state.value}")
         print(f"    Pattern: {transcendent_consciousness.coherence_pattern.value}")
         
-        # Update systems
         self.musical_bridge.current_metrics = transcendent_consciousness
         self.cascade_engine.current_consciousness = transcendent_consciousness
         
-        # Generate transcendent composition
         print("  Generating transcendent composition...")
         
         transcendent_composition = self.musical_bridge.generate_consciousness_adapted_composition(
@@ -503,7 +453,6 @@ class ConsciousnessIntegrationDemo:
         print(f"    Emotional palette: {transcendent_composition.emotional_palette}")
         print(f"    Sacred geometry: {transcendent_composition.sacred_geometry_patterns}")
         
-        # Initiate transcendent cascade
         print("  Initiating transcendent cascade...")
         
         transcendent_cascade = self.cascade_engine.initiate_consciousness_cascade(
@@ -516,7 +465,6 @@ class ConsciousnessIntegrationDemo:
         print(f"    Amplification: {transcendent_cascade.amplification_level.value}")
         print(f"    Transcendent qualities: {transcendent_cascade.transcendent_qualities}")
         
-        # Propagate through sacred glyphs
         sacred_glyphs = ["candle", "crystal", "lightning", "flower", "water", "mandala"]
         transcendent_propagations = 0
         
@@ -532,18 +480,16 @@ class ConsciousnessIntegrationDemo:
             
             time.sleep(0.3)
         
-        # Check for spontaneous cascades (transcendent effect)
         time.sleep(2)
         
         final_status = self.cascade_engine.get_cascade_status()
-        spontaneous_cascades = final_status['active_cascades'] - 1  # Subtract our original cascade
+        spontaneous_cascades = final_status['active_cascades'] - 1
         
         print(f"  Transcendent Effects Summary:")
         print(f"    Successful propagations: {transcendent_propagations}/{len(sacred_glyphs)}")
         print(f"    Spontaneous cascades triggered: {max(0, spontaneous_cascades)}")
         print(f"    Global field strength: {final_status['global_field_strength']:.2f}")
         
-        # Get harmonic field visualization
         field_viz = self.cascade_engine.get_harmonic_field_visualization()
         transcendent_glyphs = sum(1 for data in field_viz['field_visualization'].values() 
                                 if data.get('has_transcendent', False))
@@ -574,56 +520,42 @@ class ConsciousnessIntegrationDemo:
         print(f"Compositions generated: {len(self.demo_data['compositions'])}")
         print(f"Cascades initiated: {len(self.demo_data['cascades'])}")
 
-        # Phase analysis
         print("\nPHASE ANALYSIS:")
         for phase in self.demo_data['phases']:
             print(f"  Phase {phase['phase']}: {phase['name']} - {phase['duration']:.1f}s")
 
-        # Consciousness journey analysis
         if self.demo_data['consciousness_journey']:
             coherence_levels = [entry['coherence_level'] for entry in self.demo_data['consciousness_journey']]
             print("\nCONSCIOUSNESS JOURNEY:")
             print(f"  Coherence range: {min(coherence_levels):.2f} -> {max(coherence_levels):.2f}")
             print(f"  Coherence gain: {max(coherence_levels) - min(coherence_levels):.2f}")
 
-        # Musical adaptation analysis
         if self.demo_data['compositions']:
             complexities = [comp['complexity'] for comp in self.demo_data['compositions']]
             print("\nMUSICAL ADAPTATION:")
             print(f"  Complexity range: {min(complexities):.2f} -> {max(complexities):.2f}")
             print(f"  Adaptation across {len(set(comp['consciousness_state'] for comp in self.demo_data['compositions']))} states")
 
-        # Cascade scaling analysis
         if self.demo_data['cascades']:
             amplifications = [cascade['amplification'] for cascade in self.demo_data['cascades']]
             print("\nCASCADE SCALING:")
             print(f"  Amplification levels: {set(amplifications)}")
             print(f"  Scaling across {len(set(cascade['consciousness_level'] for cascade in self.demo_data['cascades']))} levels")
 
-        # Integration quality assessment
         integration_status = self.musical_bridge.get_integration_status()
         print("\nINTEGRATION QUALITY:")
         print(f"  Status: {integration_status['status']}")
         print(f"  Quality: {integration_status['integration_quality']:.2f}")
         print(f"  Feedback loops: {integration_status['active_feedback_loops']}")
 
-        # Save demo data
         self._save_demo_data()
 
         print("\nDEMONSTRATION COMPLETED SUCCESSFULLY!")
         print("All features demonstrated")
 
-        capture_insight(
-            f"Complete integration demo: {len(self.demo_data['phases'])} phases, "
-            f"{len(self.demo_data['compositions'])} compositions, {len(self.demo_data['cascades'])} cascades",
-            context="complete_integration_demo",
-            confidence=0.95
-        )
-
     def _save_demo_data(self):
         """Save demonstration data to file"""
         demo_file = Path("consciousness_integration_demo_results.json")
-        # Add final timestamp and summary
         self.demo_data['end_time'] = datetime.now().isoformat()
         self.demo_data['total_duration'] = (datetime.now() - self.demo_data['start_time']).total_seconds()
         self.demo_data['demo_successful'] = True
@@ -655,7 +587,6 @@ class ConsciousnessIntegrationDemo:
             return ConsciousnessState.TRANSCENDENT
 
 
-# Main demo execution
 async def run_consciousness_integration_demo():
     """Run the complete consciousness integration demonstration"""
     
@@ -668,6 +599,5 @@ async def run_consciousness_integration_demo():
 
 
 if __name__ == "__main__":
-    # Run the demonstration
     import asyncio
     asyncio.run(run_consciousness_integration_demo())
